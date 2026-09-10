@@ -2,66 +2,91 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F1740">
 <title>Golden Gai Bar Map – Shinjuku, Tokyo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
+/* =========================================================
+   Tokens
+   ========================================================= */
 :root{
-  --night:#1F1740; --street:#2C2257; --line:#3C3175;
-  --paper:#FFF1C9; --muted:#A79CD6; --ink:#1F1740; --soft:#5B4F8A;
+  --night:#1F1740; --street:#2C2257; --street-2:#352A66; --line:#3C3175;
+  --paper:#FFF1C9; --muted:#A79CD6; --lilac:#E9DEFF; --ink:#1F1740; --soft:#5B4F8A;
   --pink:#FF6FC1; --yellow:#FFD93D;
+  --hh:56px;                      /* top bar height (mobile, Q&A) */
+  --sab:env(safe-area-inset-bottom,0px);
+  --sal:env(safe-area-inset-left,0px);
+  --sar:env(safe-area-inset-right,0px);
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%}
-body{background:var(--night);color:var(--paper);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;font-size:15px;line-height:1.6}
+html,body{margin:0}
+body{background:var(--night);color:var(--paper);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%}
 button,input{font:inherit;color:inherit}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
 [hidden]{display:none!important}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* ---------- page tabs ---------- */
-.tabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--street);margin-bottom:26px}
-.tabs a{padding:6px 16px;border-radius:999px;text-decoration:none;font-weight:900;color:var(--muted)}
+/* =========================================================
+   Shared pieces
+   ========================================================= */
+.tabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--street)}
+.tabs a{padding:6px 16px;border-radius:999px;text-decoration:none;font-weight:900;color:var(--muted);white-space:nowrap}
 .tabs a[aria-current="page"]{background:var(--paper);color:var(--ink)}
 .tabs a:not([aria-current="page"]):hover{color:var(--paper)}
 
-/* ---------- map view ---------- */
-.app{display:grid;grid-template-columns:minmax(300px,360px) 1fr;height:100vh}
+.seg{display:inline-flex;border:2px solid var(--line);border-radius:999px;padding:3px;gap:2px;flex:none}
+.seg button{border:0;background:none;padding:5px 14px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--muted);white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+
+.sw{width:22px;height:14px;border-radius:3px;background:var(--c);flex:none}
+.flag{display:inline-block;padding:2px 9px;border-radius:999px;background:var(--ink);color:var(--yellow);font-size:12px;font-weight:900}
+
+/* top bar: phones (all pages) and the Q&A page (all sizes) */
+.topbar{display:none;position:sticky;top:0;z-index:25;height:var(--hh);align-items:center;justify-content:space-between;gap:12px;
+  padding:0 calc(16px + var(--sar)) 0 calc(16px + var(--sal));background:rgba(31,23,64,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+body[data-view="qa"] .topbar{display:flex}
+.wordmark{font-family:"Dela Gothic One",sans-serif;font-size:20px;line-height:1;text-decoration:none;color:var(--paper);white-space:nowrap;
+  text-shadow:0 0 12px rgba(255,111,193,.6)}
+.wordmark small{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:12px;color:var(--yellow);margin-left:8px;text-shadow:none}
+.topbar .tabs a{padding:5px 14px}
+
+/* =========================================================
+   Map page — desktop base (≥1100px)
+   ========================================================= */
+.app{display:grid;grid-template-columns:360px 1fr;height:100vh;height:100dvh}
 .side{overflow:auto;padding:26px 28px 40px;border-right:1px solid var(--line)}
+.side-head .tabs{margin-bottom:26px}
 .title{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:60px;line-height:.92;color:var(--paper);
   text-shadow:0 0 22px rgba(255,111,193,.55),0 0 2px rgba(255,111,193,.9)}
 .title-ja{margin:14px 0 0;font-family:"Dela Gothic One",sans-serif;font-size:17px;color:var(--yellow)}
-.intro{margin:18px 0 0;max-width:34ch;color:#E9DEFF}
+.intro{margin:18px 0 0;max-width:34ch;color:var(--lilac)}
 .intro strong{color:var(--paper)}
 .stamp{margin:14px 0 0;padding:10px 12px;border-radius:10px;border:1.5px dashed #6A5CA8;font-size:13px;color:#D9CFF7;max-width:36ch}
 
 .block{margin-top:28px}
 .block h2{margin:0 0 10px;font-size:15px;font-weight:900;color:var(--paper)}
-.search input{width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--line);background:var(--street);outline:none}
+.search input{width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--line);background:var(--street);outline:none;font-size:16px}
 .search input::placeholder{color:var(--muted)}
 .search input:focus{border-color:var(--yellow)}
 .results{list-style:none;margin:8px 0 0;padding:0}
-.results button{display:block;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:7px 10px;cursor:pointer}
+.results button{display:block;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:8px 10px;cursor:pointer}
 .results button:hover,.results button:focus-visible{background:var(--street)}
 .results .r-en{font-weight:700}
 .results .r-ja{display:block;font-size:12.5px;color:var(--muted)}
 .results .none{padding:6px 10px;color:var(--muted);font-size:14px}
 
-.seg{display:inline-flex;border:2px solid var(--line);border-radius:999px;padding:3px;gap:2px}
-.seg button{border:0;background:none;padding:5px 14px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--muted)}
-.seg button[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
-
 .legend{list-style:none;margin:0;padding:0;display:grid;gap:2px}
 .legend button{width:100%;display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:10px;background:none;border:0;border-radius:8px;padding:6px 8px;cursor:pointer;text-align:left}
 .legend button:hover{background:var(--street)}
 .legend button[aria-pressed="true"]{background:var(--street);box-shadow:inset 0 0 0 2px var(--c)}
-.sw{width:22px;height:14px;border-radius:3px;background:var(--c);flex:none}
 .legend .cnt{font-size:13px;color:var(--muted)}
-.legend .l-ja{font-size:12px;color:var(--muted);margin-left:6px}
+.legend .l-ja{display:block;font-size:12px;line-height:1.3;color:var(--muted)}
 .note{font-size:13.5px;color:var(--muted);margin:8px 0 0}
-.floors{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:13.5px;color:#E9DEFF}
+.floors{display:flex;gap:10px 16px;flex-wrap:wrap;margin-top:12px;font-size:13.5px;color:var(--lilac)}
 .floors span{display:inline-flex;align-items:center;gap:7px}
 .fk{width:22px;height:14px;border-radius:3px;background:#4DB8FF}
 .fk.up{background:repeating-linear-gradient(45deg,#4DB8FF 0 2.2px,#3a7fb3 2.2px 3.4px)}
@@ -71,18 +96,23 @@ a{color:inherit}
 .tips li{margin-bottom:8px}
 .more{display:inline-block;margin-top:4px;font-weight:900;color:var(--yellow)}
 
-.map-area{position:relative;height:100vh;min-width:0}
-.map-scroll{height:100%;overflow:auto;overscroll-behavior:contain}
+/* main stage */
+.map-area{display:flex;flex-direction:column;height:100vh;height:100dvh;min-width:0}
+.viewbar{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.stage{position:relative;flex:1;min-height:0}
+.map-scroll,.list-scroll{position:absolute;inset:0;overflow:auto;overscroll-behavior:contain}
 .map-inner{padding:28px}
 #map{display:block;margin:0 auto;user-select:none;-webkit-user-select:none}
-.zoom{position:absolute;right:18px;bottom:18px;display:flex;flex-direction:column;gap:6px}
-.zoom button{width:42px;height:42px;border-radius:12px;border:2px solid var(--line);background:var(--street);cursor:pointer;font-size:20px;font-weight:900;line-height:1}
+.zoom{position:absolute;right:calc(16px + var(--sar));bottom:calc(16px + var(--sab));display:flex;flex-direction:column;gap:6px}
+.zoom button{width:44px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--street);cursor:pointer;font-size:20px;font-weight:900;line-height:1}
 .zoom button:hover{border-color:var(--yellow)}
 .zoom .fit{font-size:12px}
 
+/* map tiles */
 .tile{cursor:pointer}
 .tile .base{stroke:var(--night);stroke-width:.8;transition:stroke .12s}
-.tile:hover .base,.tile:focus .base,.tile.sel .base{stroke:#fff;stroke-width:1.6}
+.tile:focus .base,.tile.sel .base{stroke:#fff;stroke-width:1.6}
+@media (hover:hover){.tile:hover .base{stroke:#fff;stroke-width:1.6}}
 .tile:focus{outline:none}
 .tile text,.lm text{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;pointer-events:none}
 .tile text{fill:var(--ink)}
@@ -93,17 +123,36 @@ a{color:inherit}
 .filtering .tile.bar:not(.hit),.filtering .tile.food:not(.hit){opacity:.16}
 .tile.hit .base{stroke:#fff;stroke-width:1.4}
 
-/* ---------- hover card ---------- */
+/* list view */
+.list-scroll{padding:6px 20px calc(40px + var(--sab))}
+.lg h3{position:sticky;top:0;z-index:1;display:flex;align-items:center;gap:10px;margin:0;padding:14px 0 8px;background:var(--night);font-size:15px;font-weight:900}
+.lg h3 .l-ja{font-size:12px;font-weight:700;color:var(--muted)}
+.lg h3 .cnt{margin-left:auto;font-size:13px;font-weight:700;color:var(--muted)}
+.rows{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+.row{width:100%;height:100%;text-align:left;display:block;background:var(--street);border:0;border-left:5px solid var(--c);border-radius:10px;padding:10px 12px 11px;cursor:pointer}
+.row:hover{background:var(--street-2)}
+.row.nodata{background:none;box-shadow:inset 0 0 0 1px var(--line)}
+.row .r1{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.row .rn{font-weight:900;font-size:15.5px;line-height:1.3}
+.row .rf{flex:none;font-size:12px;color:var(--muted)}
+.row .rja{display:block;font-size:12.5px;color:var(--muted)}
+.row .rd{display:block;margin-top:4px;font-size:13.5px;line-height:1.45;color:var(--lilac)}
+.row .rm{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:6px;font-size:12.5px;color:var(--muted)}
+.row .flag{margin-top:6px;font-size:11.5px}
+.list-empty{margin:40px auto;max-width:36ch;text-align:center;color:var(--muted)}
+.list-stamp{margin:18px 0 0;font-size:12.5px;color:var(--muted)}
+
+/* hover card */
 .peek{position:fixed;z-index:30;width:270px;background:var(--paper);color:var(--ink);border-radius:14px;overflow:hidden;pointer-events:none;
   box-shadow:0 14px 40px rgba(10,5,30,.55);opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
 .peek.on{opacity:1;transform:none}
 .sign{height:80px;display:grid;place-items:center;background:var(--c);position:relative;overflow:hidden}
 .sign img{width:100%;height:100%;object-fit:cover}
 .sign .sign-ja{font-family:"Dela Gothic One",sans-serif;font-size:24px;line-height:1.1;color:var(--ink);text-align:center;padding:0 12px;word-break:break-all}
-.peek-body{padding:12px 14px 12px}
+.peek-body{padding:12px 14px}
 .peek-name{margin:0;font-family:"Dela Gothic One",sans-serif;font-size:18px;line-height:1.15}
 .peek-sub{margin:3px 0 0;font-size:12.5px;color:var(--soft)}
-.flag{display:inline-block;margin-top:8px;padding:2px 9px;border-radius:999px;background:var(--ink);color:var(--yellow);font-size:12px;font-weight:900}
+.peek .flag{margin-top:8px}
 .desc{margin:8px 0 0;font-size:14px;line-height:1.5}
 .peek dl{margin:10px 0 0;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:13px}
 .peek dt{color:var(--soft)}
@@ -111,103 +160,168 @@ a{color:inherit}
 .peek dd.empty,.facts dd.empty{font-weight:400;color:#8C82B5}
 .asof{margin:10px 0 0;font-size:11.5px;color:#8C82B5}
 
-/* ---------- detail panel ---------- */
-.panel{position:fixed;z-index:40;top:0;right:0;height:100vh;width:min(420px,100vw);background:var(--paper);color:var(--ink);overflow:auto;
+/* detail panel: side drawer on desktop, bottom sheet on phones */
+.panel{position:fixed;z-index:40;top:0;right:0;height:100vh;height:100dvh;width:min(420px,100vw);background:var(--paper);color:var(--ink);overflow:auto;overscroll-behavior:contain;
   transform:translateX(105%);transition:transform .22s ease;box-shadow:-18px 0 50px rgba(10,5,30,.45)}
 .panel.open{transform:none}
+.grab{display:none}
 .panel .sign{height:150px}
 .panel .sign-ja{font-size:38px}
-.close{position:absolute;top:12px;left:12px;z-index:2;width:38px;height:38px;border-radius:50%;border:0;background:var(--ink);color:var(--paper);font-size:20px;cursor:pointer}
-.p-body{padding:22px 24px 32px}
+.close{position:absolute;top:12px;left:12px;z-index:2;width:40px;height:40px;border-radius:50%;border:0;background:var(--ink);color:var(--paper);font-size:20px;cursor:pointer}
+.p-body{padding:22px 24px calc(32px + var(--sab))}
 .p-name{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:28px;line-height:1.12}
 .p-ja{margin:6px 0 0;font-size:16px;font-weight:700;color:var(--soft)}
 .p-where{margin:10px 0 0;display:flex;align-items:center;gap:8px;font-size:14px}
+.p-body .flag{margin-top:10px}
 .p-body .desc{font-size:16px;margin-top:14px}
 .facts{margin:20px 0 0;display:grid;grid-template-columns:auto 1fr;border-top:2px solid var(--ink)}
 .facts dt,.facts dd{padding:9px 0;border-bottom:1px solid #D9CCA6;margin:0}
 .facts dt{padding-right:18px;color:var(--soft);font-size:14px}
-.facts dd{font-weight:700}
-.facts a{color:inherit}
+.facts dd{font-weight:700;min-width:0;overflow-wrap:anywhere}
 .p-note{margin:16px 0 0;font-size:14px;color:#4A3F77}
 .actions{display:grid;gap:10px;margin-top:22px}
-.btn{display:flex;justify-content:center;align-items:center;padding:13px 16px;border-radius:12px;font-weight:900;text-decoration:none;border:2px solid var(--ink)}
+.btn{display:flex;justify-content:center;align-items:center;min-height:48px;padding:12px 16px;border-radius:12px;font-weight:900;text-decoration:none;border:2px solid var(--ink)}
 .btn.primary{background:var(--ink);color:var(--paper)}
 .btn.secondary{color:var(--ink)}
-.btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
 .source{margin:22px 0 0;font-size:12px;color:#7A70A6;line-height:1.5}
-.scrim{position:fixed;inset:0;z-index:35;background:rgba(10,5,30,.35);opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim{position:fixed;inset:0;z-index:35;background:rgba(10,5,30,.4);opacity:0;pointer-events:none;transition:opacity .2s}
 .scrim.on{opacity:1;pointer-events:auto}
 
-/* ---------- Q&A view ---------- */
-.qa{max-width:780px;margin:0 auto;padding:30px 24px 80px}
-.qa-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
-.qa-title{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:clamp(40px,7vw,64px);line-height:1;color:var(--paper);
+/* =========================================================
+   Q&A page
+   ========================================================= */
+.qa{max-width:780px;margin:0 auto;padding:40px calc(24px + var(--sar)) calc(80px + var(--sab)) calc(24px + var(--sal))}
+.qa-title{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:clamp(38px,7vw,64px);line-height:1.02;color:var(--paper);
   text-shadow:0 0 22px rgba(255,111,193,.55),0 0 2px rgba(255,111,193,.9)}
-.qa-lead{margin:18px 0 0;max-width:52ch;font-size:17px;color:#E9DEFF}
+.qa-lead{margin:18px 0 0;max-width:52ch;font-size:17px;color:var(--lilac)}
 .qa-list{margin-top:44px}
 .qa-item{padding:28px 0;border-top:1px solid var(--line)}
 .qa-item h2{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:24px;line-height:1.25;color:var(--paper);display:flex;gap:14px}
 .qa-item h2::before{content:"Q";flex:none;width:34px;height:34px;border-radius:9px;background:var(--pink);color:var(--ink);display:grid;place-items:center;font-size:18px;margin-top:-2px}
 .qa-short{margin:12px 0 0 48px;font-weight:900;color:var(--yellow);font-size:17px}
-.qa-item p.a{margin:8px 0 0 48px;max-width:60ch;color:#E9DEFF}
+.qa-item p.a{margin:8px 0 0 48px;max-width:60ch;color:var(--lilac)}
 .events{list-style:none;margin:14px 0 0 48px;padding:0;display:grid;gap:14px}
 .events li{padding:16px 18px;border-radius:14px;background:var(--street)}
 .events .when{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--c);color:var(--ink);font-weight:900;font-size:13px}
 .events h3{margin:8px 0 2px;font-size:18px;font-weight:900}
-.events p{margin:0;color:#E9DEFF;max-width:58ch}
+.events p{margin:0;color:var(--lilac);max-width:58ch}
 .events .org{font-size:13px;color:var(--muted);margin-top:6px}
 .qa-source{margin-top:40px;font-size:13px;color:var(--muted);max-width:62ch}
-.qa-cta{display:inline-block;margin-top:14px;padding:12px 20px;border-radius:12px;background:var(--paper);color:var(--ink);font-weight:900;text-decoration:none}
+.qa-cta{display:inline-flex;align-items:center;min-height:48px;margin-top:14px;padding:12px 20px;border-radius:12px;background:var(--paper);color:var(--ink);font-weight:900;text-decoration:none}
 
-@media (max-width:860px){
-  .app{display:flex;flex-direction:column;height:auto;padding-bottom:30px}
-  .side{display:contents}
-  .side>*{margin-left:20px;margin-right:20px}
-  .side>.tabs{margin-top:20px;align-self:flex-start}
-  .side>.late{order:3}
-  .title{font-size:48px}
-  .map-area{order:2;margin-top:24px;height:78vh;border-top:1px solid var(--line)}
-  .map-inner{padding:14px}
-  .panel{top:auto;bottom:0;height:auto;max-height:86vh;width:100vw;border-radius:18px 18px 0 0;transform:translateY(105%)}
-  .panel.open{transform:none}
-  .panel .sign{height:110px}
-  .qa-short,.qa-item p.a,.events{margin-left:0}
+/* =========================================================
+   Large desktop (≥1600px): more room for the map
+   ========================================================= */
+@media (min-width:1600px){
+  .app{grid-template-columns:400px 1fr}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* =========================================================
+   Tablet & small laptop (861–1099px)
+   ========================================================= */
+@media (max-width:1099px) and (min-width:861px){
+  .app{grid-template-columns:300px 1fr}
+  .side{padding:22px 22px 36px}
+  .title{font-size:48px}
+  .viewbar{padding:12px 16px}
+  .map-inner{padding:20px}
+  .rows{grid-template-columns:1fr}
+}
+
+/* =========================================================
+   Phones (≤860px): map-first, single column
+   order: top bar → search → alley chips → map/list → info
+   ========================================================= */
+@media (max-width:860px){
+  .topbar{display:flex}
+  .app{display:flex;flex-direction:column;height:auto}
+  .side{display:contents}
+  .side-head{display:none}
+  .side>.block,.side>.intro,.side>.stamp{margin-left:calc(16px + var(--sal));margin-right:calc(16px + var(--sar))}
+  .search-block{order:1;margin-top:14px}
+  .search-block h2{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .filters{order:2;margin-top:12px}
+  .filters h2{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .map-area{order:3}
+  .late{order:4}
+  .side>.intro{order:4;margin-top:28px;max-width:none}
+  .side>.stamp{order:4;max-width:none}
+  .side>.block.late:last-child{margin-bottom:calc(40px + var(--sab))}
+
+  /* alley filter becomes a swipeable chip row */
+  .legend{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 calc(-16px - var(--sar)) 0 calc(-16px - var(--sal));padding:2px calc(16px + var(--sar)) 4px calc(16px + var(--sal));scroll-padding:0 16px}
+  .legend::-webkit-scrollbar{display:none}
+  .legend li{flex:none}
+  .legend button{width:auto;display:inline-flex;gap:8px;min-height:40px;padding:6px 14px 6px 10px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--line);white-space:nowrap}
+  .legend button[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--c);background:var(--street)}
+  .legend .sw{width:12px;height:12px;border-radius:50%}
+  .legend .l-ja{display:none}
+
+  .map-area{height:calc(100vh - var(--hh));height:calc(100dvh - var(--hh));margin-top:12px;border-top:1px solid var(--line);scroll-margin-top:var(--hh)}
+  .viewbar{padding:10px calc(16px + var(--sar)) 10px calc(16px + var(--sal))}
+  .viewbar .seg button{padding:6px 12px}
+  .map-scroll{overscroll-behavior:auto;touch-action:pan-x pan-y}
+  .list-scroll{overscroll-behavior:auto;padding:0 calc(16px + var(--sar)) calc(32px + var(--sab)) calc(16px + var(--sal))}
+  .map-inner{padding:14px}
+  .rows{grid-template-columns:1fr}
+
+  .panel{top:auto;bottom:0;height:auto;max-height:88vh;max-height:88dvh;width:100vw;border-radius:20px 20px 0 0;transform:translateY(105%);box-shadow:0 -12px 40px rgba(10,5,30,.45)}
+  .panel.open{transform:none}
+  .grab{display:block;position:sticky;top:0;z-index:3;height:22px;margin-bottom:-22px;touch-action:none}
+  .grab::after{content:"";position:absolute;left:50%;top:8px;width:44px;height:5px;margin-left:-22px;border-radius:3px;background:rgba(31,23,64,.35)}
+  .panel .sign{height:112px}
+  .panel .sign-ja{font-size:30px}
+  .close{left:auto;right:12px}
+  .p-body{padding:18px 20px calc(28px + var(--sab))}
+  .p-name{font-size:24px}
+
+  .qa{padding-top:28px}
+  .qa-short,.qa-item p.a,.events{margin-left:0}
+  .qa-item h2{font-size:21px}
+}
+@media (max-width:480px){
+  .lg h3 .l-ja{display:none}
+}
+@media (max-width:380px){
+  .wordmark small{display:none}
+  .viewbar{flex-wrap:wrap}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
-<body>
+<body data-view="map">
 
-<!-- =================== MAP VIEW =================== -->
+<header class="topbar">
+  <a class="wordmark" href="#map">Golden Gai<small>ゴールデン街</small></a>
+  <nav class="tabs" aria-label="Pages"><a href="#map" aria-current="page">Map</a><a href="#qa">Q&amp;A</a></nav>
+</header>
+
+<!-- =================== MAP PAGE =================== -->
 <div class="app" id="view-map">
   <aside class="side">
-    <nav class="tabs" aria-label="Pages"><a href="#map" aria-current="page">Map</a><a href="#qa">Q&amp;A</a></nav>
-    <h1 class="title">Golden<br>Gai</h1>
-    <p class="title-ja">新宿ゴールデン街</p>
+    <div class="side-head">
+      <nav class="tabs" aria-label="Pages"><a href="#map" aria-current="page">Map</a><a href="#qa">Q&amp;A</a></nav>
+      <h1 class="title">Golden<br>Gai</h1>
+      <p class="title-ja">新宿ゴールデン街</p>
+    </div>
     <p class="intro">Six narrow alleys in Shinjuku, packed with <strong id="barCount">200+</strong> tiny bars. Point at a bar to peek inside. Click or tap it for hours, seats and prices.</p>
     <p class="stamp">Shop details come from a local guide published in April 2022. Hours, prices and even the bars themselves may have changed since.</p>
 
-    <div class="block">
+    <div class="block search-block">
       <h2><label for="q">Find a bar</label></h2>
       <div class="search">
-        <input id="q" type="search" placeholder="Bar name, or try jazz, whisky, ramen" autocomplete="off">
+        <input id="q" type="search" placeholder="Bar name, or try jazz, whisky, ramen" autocomplete="off" enterkeyhint="search">
         <ul class="results" id="results" aria-live="polite"></ul>
       </div>
     </div>
 
-    <div class="block late">
-      <h2 id="labelsHead">Map labels</h2>
-      <div class="seg" role="group" aria-labelledby="labelsHead">
-        <button type="button" data-lang="en" aria-pressed="true">English</button>
-        <button type="button" data-lang="ja" aria-pressed="false">日本語</button>
-      </div>
-      <p class="note">Most signboards are in Japanese. Switch to 日本語 to match what you see on the street.</p>
+    <div class="block filters">
+      <h2 id="alleysHead">Alleys</h2>
+      <ul class="legend" id="legend" aria-labelledby="alleysHead"></ul>
     </div>
 
     <div class="block late">
-      <h2>Alleys</h2>
-      <ul class="legend" id="legend"></ul>
-      <p class="note">Each bar is colored by the alley its door opens onto. Tap an alley to highlight its bars.</p>
+      <p class="note">Each bar is colored by the alley its door opens onto. Choose an alley to highlight its bars.</p>
       <div class="floors">
         <span><i class="fk"></i>Street level</span>
         <span><i class="fk up"></i>Upstairs</span>
@@ -221,6 +335,7 @@ a{color:inherit}
       <ul class="tips">
         <li>Most bars add a seating fee (cover charge) on top of your drinks. Ask before you sit down.</li>
         <li>Some bars are members-only or need an introduction. The card tells you when we know.</li>
+        <li>Most signboards are in Japanese. Switch the map labels to 日本語 to match them.</li>
         <li>Many bars ask guests not to take photos. Ask the staff first.</li>
         <li>Bring cash. Not every bar takes cards.</li>
       </ul>
@@ -228,24 +343,32 @@ a{color:inherit}
     </div>
   </aside>
 
-  <main class="map-area" aria-label="Golden Gai map">
-    <div class="map-scroll" id="scroll"><div class="map-inner"><svg id="map" viewBox="0 0 692 926" role="img" aria-label="Map of Golden Gai bars"></svg></div></div>
-    <div class="zoom">
-      <button type="button" id="zin" aria-label="Zoom in">+</button>
-      <button type="button" id="zout" aria-label="Zoom out">−</button>
-      <button type="button" id="zfit" class="fit" aria-label="Fit map to screen">Fit</button>
+  <main class="map-area" id="mapArea" aria-label="Bars">
+    <div class="viewbar">
+      <div class="seg" role="group" aria-label="View">
+        <button type="button" data-view="map" aria-pressed="true">Map</button>
+        <button type="button" data-view="list" aria-pressed="false">List</button>
+      </div>
+      <div class="seg" role="group" aria-label="Map labels">
+        <button type="button" data-lang="en" aria-pressed="true">English</button>
+        <button type="button" data-lang="ja" aria-pressed="false">日本語</button>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="map-scroll" id="scroll"><div class="map-inner"><svg id="map" viewBox="0 0 692 926" role="img" aria-label="Map of Golden Gai bars"></svg></div></div>
+      <div class="list-scroll" id="list" hidden></div>
+      <div class="zoom" id="zoom">
+        <button type="button" id="zin" aria-label="Zoom in">+</button>
+        <button type="button" id="zout" aria-label="Zoom out">−</button>
+        <button type="button" id="zfit" class="fit" aria-label="Fit map to screen">Fit</button>
+      </div>
     </div>
   </main>
 </div>
 
-<!-- =================== Q&A VIEW =================== -->
+<!-- =================== Q&A PAGE =================== -->
 <div class="qa" id="view-qa" hidden>
-  <div class="qa-head">
-    <div>
-      <nav class="tabs" aria-label="Pages"><a href="#map">Map</a><a href="#qa" aria-current="page">Q&amp;A</a></nav>
-      <h1 class="qa-title">First time<br>in Golden Gai?</h1>
-    </div>
-  </div>
+  <h1 class="qa-title">First time<br>in Golden Gai?</h1>
   <p class="qa-lead">A few things worth knowing before you open your first door.</p>
 
   <div class="qa-list">
@@ -912,10 +1035,19 @@ function labelAll(){
   lmG.querySelectorAll('g').forEach(g=>{const d=g._lm;drawLabel(g,lang==='ja'?d.ja:d.en,d,11);});
 }
 
-/* ---------- sidebar ---------- */
-document.getElementById('barCount').textContent=T.filter(t=>t.type==='bar').length;
-const legend=document.getElementById('legend');
-let alleyFilter=null;
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const mobile=()=>matchMedia('(max-width:860px)').matches;
+const reduceMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const COVER_UNKNOWN='Ask before you sit';
+const dayOff=c=>c==='Open daily'?'None, open daily':c;
+function where(t){const d=t.info||{};return [d.k,t.floor,ALLEYS[t.alley].en].filter(Boolean).join(', ');}
+
+/* ---------- filters: alley + search ---------- */
+$('#barCount').textContent=T.filter(t=>t.type==='bar').length;
+const legend=$('#legend');
+let alleyFilter=null, matches=null, view='map';
 Object.entries(ALLEYS).forEach(([k,a])=>{
   const n=PLACES.filter(t=>t.alley===k).length;
   const li=document.createElement('li');
@@ -926,51 +1058,91 @@ legend.addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b) return;
   alleyFilter=alleyFilter===b.dataset.a?null:b.dataset.a;
   legend.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.a===alleyFilter));
-  applyHighlight();
+  applyFilters();
 });
 
-const q=document.getElementById('q'),results=document.getElementById('results');
+const q=$('#q'), results=$('#results');
 const norm=s=>(s||'').toLowerCase().normalize('NFKC').replace(/[\s.'’\-]/g,'');
-let matches=null;
+const hay=t=>[t.en,t.ja,t.info&&t.info.n,t.info&&t.info.d,t.info&&t.info.k].map(norm).join('|');
 q.addEventListener('input',()=>{
-  const v=norm(q.value); results.innerHTML='';
-  if(!v){matches=null;applyHighlight();return;}
-  const hay=t=>[t.en,t.ja,t.info&&t.info.n,t.info&&t.info.d,t.info&&t.info.k].map(norm).join('|');
-  matches=PLACES.filter(t=>hay(t).includes(v));
-  applyHighlight();
-  if(!matches.length){results.innerHTML=`<li class="none">Nothing matches “${q.value.replace(/</g,'&lt;')}”. Try part of a name or a drink.</li>`;return;}
-  matches.slice(0,8).forEach(t=>{
+  const v=norm(q.value);
+  matches=v?PLACES.filter(t=>hay(t).includes(v)):null;
+  applyFilters(); renderResults();
+});
+function renderResults(){
+  results.innerHTML='';
+  if(!matches) return;
+  if(view==='list') return;                    // the list itself shows the matches
+  if(!matches.length){results.innerHTML=`<li class="none">Nothing matches “${esc(q.value)}”. Try part of a name or a drink.</li>`;return;}
+  matches.slice(0,mobile()?4:8).forEach(t=>{
     const li=document.createElement('li');
     li.innerHTML='<button type="button"><span class="r-en"></span><span class="r-ja"></span></button>';
     li.querySelector('.r-en').textContent=displayName(t);
     li.querySelector('.r-ja').textContent=`${t.ja}${t.floor?', '+t.floor:''}, ${ALLEYS[t.alley].short}`;
-    li.querySelector('button').onclick=()=>{scrollToTile(t);openPanel(t);};
+    li.querySelector('button').onclick=()=>{ q.blur(); scrollToTile(t); openPanel(t); };
     results.appendChild(li);
   });
-  if(matches.length>8){const li=document.createElement('li');li.className='none';li.textContent=`${matches.length-8} more highlighted on the map`;results.appendChild(li);}
-});
-function applyHighlight(){
+  const rest=matches.length-(mobile()?4:8);
+  if(rest>0){const li=document.createElement('li');li.className='none';li.textContent=`${rest} more highlighted. Switch to List to see all.`;results.appendChild(li);}
+}
+function applyFilters(){
   const on=!!(matches||alleyFilter);
   svg.classList.toggle('filtering',on);
   T.forEach(t=>t.g.classList.toggle('hit',on&&(!matches||matches.includes(t))&&(!alleyFilter||t.alley===alleyFilter)));
+  if(view==='list') renderList();
 }
-document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{
+
+/* ---------- list view ---------- */
+const listEl=$('#list');
+function renderList(){
+  const pool=PLACES.filter(t=>(!matches||matches.includes(t))&&(!alleyFilter||t.alley===alleyFilter));
+  if(!pool.length){listEl.innerHTML=`<p class="list-empty">No bars match. Clear the search or pick another alley.</p>`;return;}
+  let html='';
+  Object.entries(ALLEYS).forEach(([k,a])=>{
+    const items=pool.filter(t=>t.alley===k).sort((x,y)=>(!!y.info-!!x.info)||(x.y0-y.y0)||(x.x0-y.x0));
+    if(!items.length) return;
+    html+=`<section class="lg"><h3><span class="sw" style="--c:${a.c}"></span>${esc(a.en)}<span class="l-ja">${esc(a.ja)}</span><span class="cnt">${items.length}</span></h3><ul class="rows">`;
+    items.forEach(t=>{
+      const d=t.info;
+      html+=`<li><button type="button" class="row${d?'':' nodata'}" data-i="${t.i}" style="--c:${a.c}">
+        <span class="r1"><span class="rn">${esc(displayName(t))}</span><span class="rf">${esc([d&&d.k,t.floor].filter(Boolean).join(', '))}</span></span>
+        <span class="rja">${esc(t.ja)}</span>
+        ${d?`<span class="rd">${esc(d.d)}</span>
+        <span class="rm"><span>${esc(d.h)}</span><span>${d.c==='Open daily'?'Open daily':'Closed '+esc(d.c)}</span>${d.ch?`<span>${esc(d.ch)}</span>`:''}</span>
+        ${d.m?`<span class="flag">${esc(d.m)}</span>`:''}`:`<span class="rd" style="color:var(--muted)">No details yet</span>`}
+      </button></li>`;
+    });
+    html+='</ul></section>';
+  });
+  html+=`<p class="list-stamp">Details from a local guide published in April 2022. They may have changed.</p>`;
+  listEl.innerHTML=html;
+}
+listEl.addEventListener('click',e=>{const b=e.target.closest('.row');if(b)openPanel(T[b.dataset.i]);});
+
+function setView(v){
+  view=v;
+  $$('button[data-view]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===v));
+  const isList=v==='list';
+  $('#scroll').hidden=isList; $('#zoom').hidden=isList; listEl.hidden=!isList;
+  $$('[data-lang]').forEach(b=>b.closest('.seg').hidden=isList);
+  if(isList){renderList();listEl.scrollTop=0;} else setZoom(z);
+  hidePeek(); renderResults();
+}
+$$('button[data-view]').forEach(b=>b.onclick=()=>setView(b.dataset.view));
+$$('[data-lang]').forEach(b=>b.onclick=()=>{
   lang=b.dataset.lang;
-  document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  $$('[data-lang]').forEach(x=>x.setAttribute('aria-pressed',x===b));
   labelAll();
 });
 
-/* ---------- cards ---------- */
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const COVER_UNKNOWN='Ask before you sit';
+/* ---------- hover card (mouse & keyboard only) ---------- */
 function signHTML(t){
   const d=t.info||{};
   const inner=d.photo?`<img src="${esc(d.photo)}" alt="Signboard of ${esc(displayName(t))}">`:`<span class="sign-ja">${esc(t.ja||t.en)}</span>`;
   return `<div class="sign" style="--c:${ALLEYS[t.alley].c}">${inner}</div>`;
 }
 const val=(v,empty='Not listed')=>v?`<dd>${esc(v)}</dd>`:`<dd class="empty">${empty}</dd>`;
-function where(t){const d=t.info||{};return [d.k,t.floor,ALLEYS[t.alley].en].filter(Boolean).join(', ');}
-const peek=document.getElementById('peek');
+const peek=$('#peek');
 function showPeek(t){
   const d=t.info;
   peek.innerHTML=signHTML(t)+`<div class="peek-body">
@@ -978,7 +1150,7 @@ function showPeek(t){
     <p class="peek-sub">${esc(t.ja)}, ${esc(where(t))}</p>
     ${d&&d.m?`<span class="flag">${esc(d.m)}</span>`:''}
     ${d?`<p class="desc">${esc(d.d)}</p>
-    <dl><dt>Cover charge</dt>${val(d.ch,COVER_UNKNOWN)}<dt>Open</dt>${val(d.h)}<dt>Closed</dt>${val(d.c)}<dt>Seats</dt>${val(d.s)}</dl>
+    <dl><dt>Cover charge</dt>${val(d.ch,COVER_UNKNOWN)}<dt>Open</dt>${val(d.h)}<dt>Closed</dt>${val(d.c&&dayOff(d.c))}<dt>Seats</dt>${val(d.s)}</dl>
     <p class="asof">From the April 2022 guide. Click for more.</p>`
     :`<p class="desc" style="color:#6F659C">No details for this bar yet.</p><dl><dt>Cover charge</dt><dd class="empty">${COVER_UNKNOWN}</dd></dl>`}
   </div>`;
@@ -989,26 +1161,28 @@ function placePeek(x,y){
   let px=x+18,py=y+18;
   if(px+w>innerWidth-10) px=x-w-18;
   if(py+h>innerHeight-10) py=Math.max(10,innerHeight-h-10);
-  peek.style.left=px+'px'; peek.style.top=py+'px';
+  peek.style.left=Math.max(10,px)+'px'; peek.style.top=py+'px';
 }
 const hidePeek=()=>peek.classList.remove('on');
 const tileOf=e=>{const g=e.target.closest&&e.target.closest('.tile');if(!g)return null;const t=T[g.dataset.i];return interactive(t)?t:null;};
-svg.addEventListener('pointerover',e=>{if(e.pointerType==='touch')return;const t=tileOf(e);if(t){showPeek(t);placePeek(e.clientX,e.clientY);}});
-svg.addEventListener('pointermove',e=>{if(e.pointerType==='touch'||!peek.classList.contains('on'))return;placePeek(e.clientX,e.clientY);});
+svg.addEventListener('pointerover',e=>{if(e.pointerType!=='mouse')return;const t=tileOf(e);if(t){showPeek(t);placePeek(e.clientX,e.clientY);}});
+svg.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||!peek.classList.contains('on'))return;placePeek(e.clientX,e.clientY);});
 svg.addEventListener('pointerout',e=>{const t=tileOf(e);if(t&&!(e.relatedTarget&&e.relatedTarget.closest&&e.relatedTarget.closest('.tile')===t.g))hidePeek();});
-svg.addEventListener('focusin',e=>{const t=tileOf(e);if(!t)return;showPeek(t);const r=t.g.getBoundingClientRect();placePeek(r.right,r.top);});
+svg.addEventListener('focusin',e=>{if(mobile())return;const t=tileOf(e);if(!t)return;showPeek(t);const r=t.g.getBoundingClientRect();placePeek(r.right,r.top);});
 svg.addEventListener('focusout',hidePeek);
 
-const panel=document.getElementById('panel'),scrim=document.getElementById('scrim');
-let current=null,lastFocus=null;
+/* ---------- detail panel (drawer / bottom sheet) ---------- */
+const panel=$('#panel'), scrim=$('#scrim');
+let current=null, lastFocus=null;
 const intl=p=>'+81'+p.replace(/[^\d]/g,'').replace(/^0/,'');
 function openPanel(t){
   if(current) current.g.classList.remove('sel');
   current=t; t.g.classList.add('sel');
-  const d=t.info||{},a=ALLEYS[t.alley];
+  const d=t.info||{}, a=ALLEYS[t.alley];
   const maps=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(displayName(t)+' Golden Gai Shinjuku')}`;
   const insta=d.instagram?`<a class="btn primary" href="https://www.instagram.com/${encodeURIComponent(d.instagram)}/" target="_blank" rel="noopener">Open Instagram @${esc(d.instagram)}</a>`:'';
-  panel.innerHTML=`<button class="close" type="button" aria-label="Close">×</button>
+  panel.innerHTML=`<div class="grab" aria-hidden="true"></div>
+    <button class="close" type="button" aria-label="Close">×</button>
     ${signHTML(t)}
     <div class="p-body">
       <h2 class="p-name" id="pName">${esc(displayName(t))}</h2>
@@ -1019,7 +1193,7 @@ function openPanel(t){
       <dl class="facts">
         <dt>Cover charge</dt>${val(d.ch,COVER_UNKNOWN)}
         <dt>Open</dt>${val(d.h)}
-        <dt>Closed</dt>${val(d.c)}
+        <dt>Closed</dt>${val(d.c&&dayOff(d.c))}
         <dt>Seats</dt>${val(d.s)}
         <dt>Phone</dt>${d.t?`<dd><a href="tel:${intl(d.t)}">${esc(d.t)}</a></dd>`:'<dd class="empty">Not listed</dd>'}
         ${d.e?`<dt>Email</dt><dd><a href="mailto:${esc(d.e)}">${esc(d.e)}</a></dd>`:''}
@@ -1029,62 +1203,107 @@ function openPanel(t){
       <div class="actions">${insta}<a class="btn secondary" href="${maps}" target="_blank" rel="noopener">Search on Google Maps</a></div>
       ${t.info?`<p class="source">Details from the Shinjuku Golden Gai Anshin Joho Map (Shinjuku Tourism Promotion Association), as of 15 April 2022. Hours, prices and seats may have changed.</p>`:''}
     </div>`;
-  lastFocus=document.activeElement;
+  if(!panel.classList.contains('open')) lastFocus=document.activeElement;
+  panel.scrollTop=0; panel.style.transform='';
   panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); scrim.classList.add('on');
+  document.documentElement.style.overflow=mobile()?'hidden':'';
   hidePeek();
   panel.querySelector('.close').onclick=closePanel;
   panel.querySelector('.close').focus({preventScroll:true});
 }
 function closePanel(){
   panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); scrim.classList.remove('on');
+  panel.style.transform=''; document.documentElement.style.overflow='';
   if(current) current.g.classList.remove('sel');
   if(lastFocus&&lastFocus.focus) lastFocus.focus({preventScroll:true});
   current=null;
 }
 scrim.onclick=closePanel;
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&current)closePanel();});
+// swipe the sheet down to close (phones)
+let sheetY=null;
+panel.addEventListener('touchstart',e=>{ if(!mobile()||panel.scrollTop>0) return; sheetY=e.touches[0].clientY; },{passive:true});
+panel.addEventListener('touchmove',e=>{
+  if(sheetY===null) return;
+  const dy=e.touches[0].clientY-sheetY;
+  if(dy>0&&panel.scrollTop<=0){ e.preventDefault(); panel.style.transition='none'; panel.style.transform=`translateY(${dy}px)`; }
+  else { panel.style.transform=''; }
+},{passive:false});
+panel.addEventListener('touchend',e=>{
+  if(sheetY===null) return;
+  const dy=e.changedTouches[0].clientY-sheetY; sheetY=null;
+  panel.style.transition='';
+  if(dy>90) closePanel(); else panel.style.transform='';
+});
+
+/* tap / click on tiles */
 let downAt=null;
 svg.addEventListener('pointerdown',e=>{downAt=[e.clientX,e.clientY];});
-svg.addEventListener('click',e=>{if(downAt&&Math.hypot(e.clientX-downAt[0],e.clientY-downAt[1])>6)return;const t=tileOf(e);if(t)openPanel(t);});
+svg.addEventListener('click',e=>{ if(pinching||(downAt&&Math.hypot(e.clientX-downAt[0],e.clientY-downAt[1])>8)) return; const t=tileOf(e); if(t) openPanel(t); });
 svg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const t=tileOf(e);if(t){e.preventDefault();openPanel(t);}}});
 
-/* ---------- zoom & pan ---------- */
-const scroll=document.getElementById('scroll');
-const RATIO=926/692, mobile=()=>innerWidth<=860;
+/* ---------- zoom, pan, pinch ---------- */
+const scroll=$('#scroll');
+const RATIO=926/692;
 let z=1;
-const baseWidth=()=>{const w=scroll.clientWidth-(mobile()?28:56);return mobile()?w:Math.max(360,Math.min(w,980));};
-function setZoom(nz,keep=true){
+const pad=()=>mobile()?14:(innerWidth<1100?20:28);
+const baseWidth=()=>{const w=scroll.clientWidth-pad()*2;return mobile()?w:Math.max(360,Math.min(w,innerWidth>=1600?1120:980));};
+const defaultZoom=()=>mobile()?1.8:(matchMedia('(pointer:coarse)').matches?1.4:1);
+function setZoom(nz,anchor){
   const old=svg.clientWidth||1;
-  const cx=(scroll.scrollLeft+scroll.clientWidth/2)/old,cy=(scroll.scrollTop+scroll.clientHeight/2)/old;
+  const ax=anchor?anchor.x:scroll.clientWidth/2, ay=anchor?anchor.y:scroll.clientHeight/2;
+  const cx=(scroll.scrollLeft+ax-pad())/old, cy=(scroll.scrollTop+ay-pad())/old;
   z=Math.max(1,Math.min(4,nz));
   const w=baseWidth()*z; svg.style.width=w+'px'; svg.style.height=(w*RATIO)+'px';
-  if(keep){scroll.scrollLeft=cx*w-scroll.clientWidth/2;scroll.scrollTop=cy*w-scroll.clientHeight/2;}
+  if(anchor!==false){ scroll.scrollLeft=cx*w+pad()-ax; scroll.scrollTop=cy*w+pad()-ay; }
 }
-document.getElementById('zin').onclick=()=>setZoom(z*1.4);
-document.getElementById('zout').onclick=()=>setZoom(z/1.4);
-document.getElementById('zfit').onclick=()=>setZoom(mobile()?1.7:1,false);
-addEventListener('resize',()=>{if(!viewMap.hidden)setZoom(z);});
+function centerOn(ux,uy){ const s=svg.clientWidth/692; scroll.scrollLeft=pad()+ux*s-scroll.clientWidth/2; scroll.scrollTop=pad()+uy*s-scroll.clientHeight/2; }
+$('#zin').onclick=()=>setZoom(z*1.4);
+$('#zout').onclick=()=>setZoom(z/1.4);
+$('#zfit').onclick=()=>{ setZoom(defaultZoom(),false); if(mobile()) centerOn(360,300); else scroll.scrollTo(0,0); };
+let rsz; addEventListener('resize',()=>{clearTimeout(rsz);rsz=setTimeout(()=>{ if(!viewMap.hidden&&view==='map') setZoom(z); },120);});
+// mouse drag to pan
 let drag=null;
 scroll.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;drag={x:e.clientX,y:e.clientY,l:scroll.scrollLeft,t:scroll.scrollTop};});
 addEventListener('pointermove',e=>{if(!drag)return;scroll.scrollLeft=drag.l-(e.clientX-drag.x);scroll.scrollTop=drag.t-(e.clientY-drag.y);});
 addEventListener('pointerup',()=>drag=null);
+// ctrl/⌘ + wheel or trackpad pinch
+scroll.addEventListener('wheel',e=>{ if(!e.ctrlKey&&!e.metaKey) return; e.preventDefault(); const r=scroll.getBoundingClientRect(); setZoom(z*Math.exp(-e.deltaY*0.01),{x:e.clientX-r.left,y:e.clientY-r.top}); },{passive:false});
+// two-finger pinch on touch screens (one finger scrolls natively)
+let pinch=null, pinching=false, raf=0;
+const dist=(a,b)=>Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
+scroll.addEventListener('touchstart',e=>{
+  if(e.touches.length===2){ const [a,b]=e.touches; pinch={d:dist(a,b),z}; pinching=true; hidePeek(); }
+},{passive:true});
+scroll.addEventListener('touchmove',e=>{
+  if(!pinch||e.touches.length!==2) return;
+  e.preventDefault();
+  const [a,b]=e.touches, r=scroll.getBoundingClientRect();
+  const nz=pinch.z*dist(a,b)/pinch.d, anchor={x:(a.clientX+b.clientX)/2-r.left,y:(a.clientY+b.clientY)/2-r.top};
+  cancelAnimationFrame(raf); raf=requestAnimationFrame(()=>setZoom(nz,anchor));
+},{passive:false});
+scroll.addEventListener('touchend',e=>{ if(e.touches.length<2) pinch=null; if(!e.touches.length) setTimeout(()=>pinching=false,60); });
+
 function scrollToTile(t){
-  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(view!=='map') setView('map');
   if(z<1.6) setZoom(1.8,false);
-  const s=svg.clientWidth/692,pad=mobile()?14:28;
-  scroll.scrollTo({left:pad+((t.x0+t.x1)/2)*s-scroll.clientWidth/2,top:pad+((t.y0+t.y1)/2)*s-scroll.clientHeight/2,behavior:reduce?'auto':'smooth'});
-  if(mobile()) scroll.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  const s=svg.clientWidth/692;
+  scroll.scrollTo({left:pad()+((t.x0+t.x1)/2)*s-scroll.clientWidth/2,top:pad()+((t.y0+t.y1)/2)*s-scroll.clientHeight/2,behavior:reduceMotion()?'auto':'smooth'});
+  if(mobile()) $('#mapArea').scrollIntoView({behavior:reduceMotion()?'auto':'smooth',block:'start'});
 }
 
 /* ---------- pages (hash routing) ---------- */
-const viewMap=document.getElementById('view-map'),viewQA=document.getElementById('view-qa');
+const viewMap=$('#view-map'), viewQA=$('#view-qa');
 let mapReady=false;
 function route(){
   const qa=location.hash==='#qa';
+  document.body.dataset.view=qa?'qa':'map';
   viewMap.hidden=qa; viewQA.hidden=!qa;
+  $$('.tabs a').forEach(a=>a.getAttribute('href')===(qa?'#qa':'#map')?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   document.title=qa?'Golden Gai Q&A for first-timers – Shinjuku, Tokyo':'Golden Gai Bar Map – Shinjuku, Tokyo';
-  if(qa){ if(current) closePanel(); hidePeek(); scrollTo(0,0); }
-  else { setZoom(mapReady?z:(mobile()?1.7:1),mapReady); mapReady=true; }
+  if(qa){ if(current) closePanel(); hidePeek(); scrollTo(0,0); return; }
+  if(!mapReady){ setZoom(defaultZoom(),false); if(mobile()) centerOn(360,300); mapReady=true; }
+  else if(view==='map') setZoom(z);
 }
 addEventListener('hashchange',route);
 route();

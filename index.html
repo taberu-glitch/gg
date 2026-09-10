@@ -9,38 +9,39 @@
 <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --night:#1F1740;
-  --street:#2C2257;
-  --line:#3C3175;
-  --paper:#FFF1C9;
-  --muted:#A79CD6;
-  --ink:#1F1740;
-  --s8:#FF9F43; --s5:#FF6FC1; --s3:#4DB8FF; --s1:#FF5A67;
-  --g2:#B8F25C; --g1:#A98BFF; --mn:#FFD93D; --kb:#3EE0C0;
+  --night:#1F1740; --street:#2C2257; --line:#3C3175;
+  --paper:#FFF1C9; --muted:#A79CD6; --ink:#1F1740; --soft:#5B4F8A;
+  --pink:#FF6FC1; --yellow:#FFD93D;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
 body{background:var(--night);color:var(--paper);font-family:"Zen Kaku Gothic New",system-ui,sans-serif;font-size:15px;line-height:1.6}
 button,input{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--mn);outline-offset:2px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+[hidden]{display:none!important}
 
+/* ---------- page tabs ---------- */
+.tabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--street);margin-bottom:26px}
+.tabs a{padding:6px 16px;border-radius:999px;text-decoration:none;font-weight:900;color:var(--muted)}
+.tabs a[aria-current="page"]{background:var(--paper);color:var(--ink)}
+.tabs a:not([aria-current="page"]):hover{color:var(--paper)}
+
+/* ---------- map view ---------- */
 .app{display:grid;grid-template-columns:minmax(300px,360px) 1fr;height:100vh}
-
-/* ---------- sidebar ---------- */
-.side{overflow:auto;padding:32px 28px 40px;border-right:1px solid var(--line)}
-.title{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:60px;line-height:.92;letter-spacing:.005em;color:var(--paper);
+.side{overflow:auto;padding:26px 28px 40px;border-right:1px solid var(--line)}
+.title{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:60px;line-height:.92;color:var(--paper);
   text-shadow:0 0 22px rgba(255,111,193,.55),0 0 2px rgba(255,111,193,.9)}
-.title-ja{margin:14px 0 0;font-family:"Dela Gothic One",sans-serif;font-size:17px;color:var(--mn)}
+.title-ja{margin:14px 0 0;font-family:"Dela Gothic One",sans-serif;font-size:17px;color:var(--yellow)}
 .intro{margin:18px 0 0;max-width:34ch;color:#E9DEFF}
 .intro strong{color:var(--paper)}
+.stamp{margin:14px 0 0;padding:10px 12px;border-radius:10px;border:1.5px dashed #6A5CA8;font-size:13px;color:#D9CFF7;max-width:36ch}
 
-.block{margin-top:30px}
+.block{margin-top:28px}
 .block h2{margin:0 0 10px;font-size:15px;font-weight:900;color:var(--paper)}
-
-.search{position:relative}
 .search input{width:100%;padding:12px 14px;border-radius:10px;border:2px solid var(--line);background:var(--street);outline:none}
 .search input::placeholder{color:var(--muted)}
-.search input:focus{border-color:var(--mn)}
+.search input:focus{border-color:var(--yellow)}
 .results{list-style:none;margin:8px 0 0;padding:0}
 .results button{display:block;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:7px 10px;cursor:pointer}
 .results button:hover,.results button:focus-visible{background:var(--street)}
@@ -56,31 +57,27 @@ button,input{font:inherit;color:inherit}
 .legend button{width:100%;display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:10px;background:none;border:0;border-radius:8px;padding:6px 8px;cursor:pointer;text-align:left}
 .legend button:hover{background:var(--street)}
 .legend button[aria-pressed="true"]{background:var(--street);box-shadow:inset 0 0 0 2px var(--c)}
-.sw{width:22px;height:14px;border-radius:3px;background:var(--c)}
+.sw{width:22px;height:14px;border-radius:3px;background:var(--c);flex:none}
 .legend .cnt{font-size:13px;color:var(--muted)}
 .legend .l-ja{font-size:12px;color:var(--muted);margin-left:6px}
 .note{font-size:13.5px;color:var(--muted);margin:8px 0 0}
-
 .floors{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:13.5px;color:#E9DEFF}
 .floors span{display:inline-flex;align-items:center;gap:7px}
-.fk{width:22px;height:14px;border-radius:3px;background:var(--s3)}
-.fk.up{background:repeating-linear-gradient(45deg,var(--s3) 0 2.2px,#3a7fb3 2.2px 3.4px)}
-.fk.b1{background:radial-gradient(circle,#2f6f9f 0.9px,var(--s3) 1.1px) 0 0/4px 4px}
-
+.fk{width:22px;height:14px;border-radius:3px;background:#4DB8FF}
+.fk.up{background:repeating-linear-gradient(45deg,#4DB8FF 0 2.2px,#3a7fb3 2.2px 3.4px)}
+.fk.b1{background:radial-gradient(circle,#2f6f9f 0.9px,#4DB8FF 1.1px) 0 0/4px 4px}
+.fk.no{background:none;border:1.5px solid #6A5CA8}
 .tips{margin:0;padding-left:1.1em;max-width:36ch}
 .tips li{margin-bottom:8px}
+.more{display:inline-block;margin-top:4px;font-weight:900;color:var(--yellow)}
 
-.editor{margin-top:34px;padding-top:16px;border-top:1px dashed var(--line);font-size:13px;color:var(--muted);display:flex;align-items:center;gap:10px}
-.editor input{accent-color:var(--mn);width:16px;height:16px}
-
-/* ---------- map ---------- */
 .map-area{position:relative;height:100vh;min-width:0}
 .map-scroll{height:100%;overflow:auto;overscroll-behavior:contain}
 .map-inner{padding:28px}
 #map{display:block;margin:0 auto;user-select:none;-webkit-user-select:none}
 .zoom{position:absolute;right:18px;bottom:18px;display:flex;flex-direction:column;gap:6px}
 .zoom button{width:42px;height:42px;border-radius:12px;border:2px solid var(--line);background:var(--street);cursor:pointer;font-size:20px;font-weight:900;line-height:1}
-.zoom button:hover{border-color:var(--mn)}
+.zoom button:hover{border-color:var(--yellow)}
 .zoom .fit{font-size:12px}
 
 .tile{cursor:pointer}
@@ -89,84 +86,111 @@ button,input{font:inherit;color:inherit}
 .tile:focus{outline:none}
 .tile text,.lm text{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;pointer-events:none}
 .tile text{fill:var(--ink)}
+.tile.nodata text{fill:#D9CFF7}
 .lm text{fill:#8E83BF}
 .street-label{font-family:"Dela Gothic One",sans-serif;pointer-events:none}
 .street-label .sja{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700}
-.filtering .tile.bar:not(.hit),.filtering .tile.venue:not(.hit){opacity:.16}
+.filtering .tile.bar:not(.hit),.filtering .tile.food:not(.hit){opacity:.16}
 .tile.hit .base{stroke:#fff;stroke-width:1.4}
 
 /* ---------- hover card ---------- */
-.peek{position:fixed;z-index:30;width:250px;background:var(--paper);color:var(--ink);border-radius:14px;overflow:hidden;pointer-events:none;
+.peek{position:fixed;z-index:30;width:270px;background:var(--paper);color:var(--ink);border-radius:14px;overflow:hidden;pointer-events:none;
   box-shadow:0 14px 40px rgba(10,5,30,.55);opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
 .peek.on{opacity:1;transform:none}
-.sign{height:92px;display:grid;place-items:center;background:var(--c);position:relative;overflow:hidden}
+.sign{height:80px;display:grid;place-items:center;background:var(--c);position:relative;overflow:hidden}
 .sign img{width:100%;height:100%;object-fit:cover}
-.sign .sign-ja{font-family:"Dela Gothic One",sans-serif;font-size:26px;line-height:1.1;color:var(--ink);text-align:center;padding:0 12px;word-break:break-all}
-.sign .sign-cap{position:absolute;left:8px;bottom:6px;font-size:10.5px;font-weight:700;color:rgba(31,23,64,.6)}
-.badge{position:absolute;top:8px;right:8px;background:var(--ink);color:var(--mn);font-size:10.5px;font-weight:900;padding:2px 8px;border-radius:999px}
-.peek-body{padding:12px 14px 13px}
-.peek-name{margin:0;font-family:"Dela Gothic One",sans-serif;font-size:19px;line-height:1.15}
-.peek-sub{margin:3px 0 10px;font-size:12.5px;color:#5B4F8A}
-.peek dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:13.5px}
-.peek dt{color:#5B4F8A}
+.sign .sign-ja{font-family:"Dela Gothic One",sans-serif;font-size:24px;line-height:1.1;color:var(--ink);text-align:center;padding:0 12px;word-break:break-all}
+.peek-body{padding:12px 14px 12px}
+.peek-name{margin:0;font-family:"Dela Gothic One",sans-serif;font-size:18px;line-height:1.15}
+.peek-sub{margin:3px 0 0;font-size:12.5px;color:var(--soft)}
+.flag{display:inline-block;margin-top:8px;padding:2px 9px;border-radius:999px;background:var(--ink);color:var(--yellow);font-size:12px;font-weight:900}
+.desc{margin:8px 0 0;font-size:14px;line-height:1.5}
+.peek dl{margin:10px 0 0;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:13px}
+.peek dt{color:var(--soft)}
 .peek dd{margin:0;font-weight:700}
-.peek dd.empty{font-weight:400;color:#8C82B5}
-.peek-hint{margin:10px 0 0;font-size:12px;color:#5B4F8A}
+.peek dd.empty,.facts dd.empty{font-weight:400;color:#8C82B5}
+.asof{margin:10px 0 0;font-size:11.5px;color:#8C82B5}
 
 /* ---------- detail panel ---------- */
-.panel{position:fixed;z-index:40;top:0;right:0;height:100vh;width:min(400px,100vw);background:var(--paper);color:var(--ink);overflow:auto;
+.panel{position:fixed;z-index:40;top:0;right:0;height:100vh;width:min(420px,100vw);background:var(--paper);color:var(--ink);overflow:auto;
   transform:translateX(105%);transition:transform .22s ease;box-shadow:-18px 0 50px rgba(10,5,30,.45)}
 .panel.open{transform:none}
-.panel .sign{height:170px}
-.panel .sign-ja{font-size:40px}
+.panel .sign{height:150px}
+.panel .sign-ja{font-size:38px}
 .close{position:absolute;top:12px;left:12px;z-index:2;width:38px;height:38px;border-radius:50%;border:0;background:var(--ink);color:var(--paper);font-size:20px;cursor:pointer}
 .p-body{padding:22px 24px 32px}
-.p-name{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:30px;line-height:1.1}
-.p-ja{margin:6px 0 0;font-size:16px;font-weight:700;color:#5B4F8A}
-.p-where{margin:12px 0 0;display:flex;align-items:center;gap:8px;font-size:14px}
-.p-where .sw{flex:none}
-.facts{margin:22px 0 0;display:grid;grid-template-columns:auto 1fr;border-top:2px solid var(--ink)}
-.facts dt,.facts dd{padding:10px 0;border-bottom:1px solid #D9CCA6;margin:0}
-.facts dt{padding-right:18px;color:#5B4F8A;font-size:14px}
+.p-name{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:28px;line-height:1.12}
+.p-ja{margin:6px 0 0;font-size:16px;font-weight:700;color:var(--soft)}
+.p-where{margin:10px 0 0;display:flex;align-items:center;gap:8px;font-size:14px}
+.p-body .desc{font-size:16px;margin-top:14px}
+.facts{margin:20px 0 0;display:grid;grid-template-columns:auto 1fr;border-top:2px solid var(--ink)}
+.facts dt,.facts dd{padding:9px 0;border-bottom:1px solid #D9CCA6;margin:0}
+.facts dt{padding-right:18px;color:var(--soft);font-size:14px}
 .facts dd{font-weight:700}
-.facts dd.empty{font-weight:400;color:#8C82B5}
+.facts a{color:inherit}
+.p-note{margin:16px 0 0;font-size:14px;color:#4A3F77}
 .actions{display:grid;gap:10px;margin-top:22px}
-.btn{display:flex;justify-content:center;align-items:center;gap:8px;padding:13px 16px;border-radius:12px;font-weight:900;text-decoration:none;border:2px solid var(--ink)}
+.btn{display:flex;justify-content:center;align-items:center;padding:13px 16px;border-radius:12px;font-weight:900;text-decoration:none;border:2px solid var(--ink)}
 .btn.primary{background:var(--ink);color:var(--paper)}
 .btn.secondary{color:var(--ink)}
 .btn[aria-disabled="true"]{opacity:.4;pointer-events:none}
-.p-note{margin:18px 0 0;font-size:14px;color:#4A3F77}
+.source{margin:22px 0 0;font-size:12px;color:#7A70A6;line-height:1.5}
 .scrim{position:fixed;inset:0;z-index:35;background:rgba(10,5,30,.35);opacity:0;pointer-events:none;transition:opacity .2s}
 .scrim.on{opacity:1;pointer-events:auto}
+
+/* ---------- Q&A view ---------- */
+.qa{max-width:780px;margin:0 auto;padding:30px 24px 80px}
+.qa-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.qa-title{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:clamp(40px,7vw,64px);line-height:1;color:var(--paper);
+  text-shadow:0 0 22px rgba(255,111,193,.55),0 0 2px rgba(255,111,193,.9)}
+.qa-lead{margin:18px 0 0;max-width:52ch;font-size:17px;color:#E9DEFF}
+.qa-list{margin-top:44px}
+.qa-item{padding:28px 0;border-top:1px solid var(--line)}
+.qa-item h2{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:24px;line-height:1.25;color:var(--paper);display:flex;gap:14px}
+.qa-item h2::before{content:"Q";flex:none;width:34px;height:34px;border-radius:9px;background:var(--pink);color:var(--ink);display:grid;place-items:center;font-size:18px;margin-top:-2px}
+.qa-short{margin:12px 0 0 48px;font-weight:900;color:var(--yellow);font-size:17px}
+.qa-item p.a{margin:8px 0 0 48px;max-width:60ch;color:#E9DEFF}
+.events{list-style:none;margin:14px 0 0 48px;padding:0;display:grid;gap:14px}
+.events li{padding:16px 18px;border-radius:14px;background:var(--street)}
+.events .when{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--c);color:var(--ink);font-weight:900;font-size:13px}
+.events h3{margin:8px 0 2px;font-size:18px;font-weight:900}
+.events p{margin:0;color:#E9DEFF;max-width:58ch}
+.events .org{font-size:13px;color:var(--muted);margin-top:6px}
+.qa-source{margin-top:40px;font-size:13px;color:var(--muted);max-width:62ch}
+.qa-cta{display:inline-block;margin-top:14px;padding:12px 20px;border-radius:12px;background:var(--paper);color:var(--ink);font-weight:900;text-decoration:none}
 
 @media (max-width:860px){
   .app{display:flex;flex-direction:column;height:auto;padding-bottom:30px}
   .side{display:contents}
   .side>*{margin-left:20px;margin-right:20px}
-  .side>.title{margin-top:28px}
+  .side>.tabs{margin-top:20px;align-self:flex-start}
   .side>.late{order:3}
-  .map-area{order:2;margin-top:24px}
   .title{font-size:48px}
-  .map-area{height:78vh;border-top:1px solid var(--line)}
+  .map-area{order:2;margin-top:24px;height:78vh;border-top:1px solid var(--line)}
   .map-inner{padding:14px}
-  .panel{top:auto;bottom:0;height:auto;max-height:84vh;width:100vw;border-radius:18px 18px 0 0;transform:translateY(105%)}
+  .panel{top:auto;bottom:0;height:auto;max-height:86vh;width:100vw;border-radius:18px 18px 0 0;transform:translateY(105%)}
   .panel.open{transform:none}
-  .panel .sign{height:120px}
+  .panel .sign{height:110px}
+  .qa-short,.qa-item p.a,.events{margin-left:0}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<div class="app">
+
+<!-- =================== MAP VIEW =================== -->
+<div class="app" id="view-map">
   <aside class="side">
+    <nav class="tabs" aria-label="Pages"><a href="#map" aria-current="page">Map</a><a href="#qa">Q&amp;A</a></nav>
     <h1 class="title">Golden<br>Gai</h1>
     <p class="title-ja">新宿ゴールデン街</p>
-    <p class="intro">Six narrow alleys in Shinjuku, packed with <strong id="barCount">200+</strong> tiny bars that seat five to ten people each. Point at a bar to peek inside. Click or tap it for cover charge, hours and Instagram.</p>
+    <p class="intro">Six narrow alleys in Shinjuku, packed with <strong id="barCount">200+</strong> tiny bars. Point at a bar to peek inside. Click or tap it for hours, seats and prices.</p>
+    <p class="stamp">Shop details come from a local guide published in April 2022. Hours, prices and even the bars themselves may have changed since.</p>
 
     <div class="block">
       <h2><label for="q">Find a bar</label></h2>
       <div class="search">
-        <input id="q" type="search" placeholder="Name in English or Japanese" autocomplete="off">
+        <input id="q" type="search" placeholder="Bar name, or try jazz, whisky, ramen" autocomplete="off">
         <ul class="results" id="results" aria-live="polite"></ul>
       </div>
     </div>
@@ -188,20 +212,20 @@ button,input{font:inherit;color:inherit}
         <span><i class="fk"></i>Street level</span>
         <span><i class="fk up"></i>Upstairs</span>
         <span><i class="fk b1"></i>Basement</span>
+        <span><i class="fk no"></i>No details yet</span>
       </div>
     </div>
 
     <div class="block late">
       <h2>Before you go</h2>
       <ul class="tips">
-        <li>Most bars add a seating fee (cover charge) on top of your drinks. Check it before you sit down.</li>
-        <li>Some bars are for regulars only. Look for signs welcoming first-timers.</li>
+        <li>Most bars add a seating fee (cover charge) on top of your drinks. Ask before you sit down.</li>
+        <li>Some bars are members-only or need an introduction. The card tells you when we know.</li>
         <li>Many bars ask guests not to take photos. Ask the staff first.</li>
         <li>Bring cash. Not every bar takes cards.</li>
       </ul>
+      <a class="more" href="#qa">Read the Q&amp;A for first-timers</a>
     </div>
-
-    <label class="editor late"><input type="checkbox" id="sample"> Editor preview: fill cards with sample data</label>
   </aside>
 
   <main class="map-area" aria-label="Golden Gai map">
@@ -214,257 +238,551 @@ button,input{font:inherit;color:inherit}
   </main>
 </div>
 
+<!-- =================== Q&A VIEW =================== -->
+<div class="qa" id="view-qa" hidden>
+  <div class="qa-head">
+    <div>
+      <nav class="tabs" aria-label="Pages"><a href="#map">Map</a><a href="#qa" aria-current="page">Q&amp;A</a></nav>
+      <h1 class="qa-title">First time<br>in Golden Gai?</h1>
+    </div>
+  </div>
+  <p class="qa-lead">A few things worth knowing before you open your first door.</p>
+
+  <div class="qa-list">
+    <section class="qa-item">
+      <h2>Where is Golden Gai?</h2>
+      <p class="qa-short">About 5 minutes on foot from Shinjuku Station, East Exit.</p>
+      <p class="a">It sits in a corner of Kabukicho. From the East Exit, walk to Yasukuni-dori and cross to the Kuyakusho-dori side. Then follow the tree-lined Shiki-no-Michi promenade for about 80 meters. The alleys open up on your right.</p>
+    </section>
+
+    <section class="qa-item">
+      <h2>How many bars are there?</h2>
+      <p class="qa-short">Close to 300, each with its own personality.</p>
+      <p class="a">The area grew out of a postwar black market, and many of its Showa-era wooden buildings still stand. Two shopkeepers' associations share it: Shinjuku Golden Gai on the south side, with around 110 shops, and Shinjuku Sanko on the north side, with around 190.</p>
+    </section>
+
+    <section class="qa-item">
+      <h2>How much money should I bring?</h2>
+      <p class="qa-short">Every bar sets its own prices, so ask first.</p>
+      <p class="a">Tell the staff your budget when you sit down, or ask how much a drink and the seat will cost. Many bars add a per-person seating charge, often called a “charge” or “cover”. That is normal here, not a trick.</p>
+    </section>
+
+    <section class="qa-item">
+      <h2>How do I choose a bar?</h2>
+      <p class="qa-short">Go by the name and the look, then ask around.</p>
+      <p class="a">Pick a door whose name or style matches your taste. Once you are settled, ask the staff or the regulars which bar to try next. Following those recommendations is how most people find their favorite.</p>
+    </section>
+
+    <section class="qa-item">
+      <h2>Can we go in as a group?</h2>
+      <p class="qa-short">Two or three people works best.</p>
+      <p class="a">Most bars seat fewer than ten. For larger groups, check how many seats a bar has before you go. On busy nights you may be turned away simply because there is no room.</p>
+    </section>
+
+    <section class="qa-item">
+      <h2>Are there events for first-timers?</h2>
+      <p class="qa-short">Yes. Three bar-hopping festivals make it easy to try new places.</p>
+      <ul class="events">
+        <li style="--c:#FF9BCB">
+          <span class="when">April</span>
+          <h3>Sakura Matsuri (Cherry Blossom Festival)</h3>
+          <p>Held every April since 2013. Participating bars drop their cover charge and serve drinks at a flat ¥500, with outdoor live music too.</p>
+          <p class="org">Organized by the Shinjuku Sanko association</p>
+        </li>
+        <li style="--c:#4DB8FF">
+          <span class="when">Last Sunday of August</span>
+          <h3>Noryo Kanshasai (Summer Thank-You Festival)</h3>
+          <p>Started by volunteers and now run by the association as a thank-you to visitors. No cover charge and ¥500 drinks at participating bars, so it is a good night to explore beyond your usual spot.</p>
+          <p class="org">Organized by the Shinjuku Golden Gai association</p>
+        </li>
+        <li style="--c:#FF9F43">
+          <span class="when">Autumn</span>
+          <h3>Aki Matsuri (Autumn Festival)</h3>
+          <p>Part of the Shinjuku Machi Bar Week bar crawl since 2016, with an outdoor exhibition of old Shinjuku photographs curated by artist Vivienne Sato.</p>
+          <p class="org">Organized by the local town magazine J-G</p>
+        </li>
+      </ul>
+      <p class="a">Dates and prices above come from the 2022 guide. Check each year's announcement before you plan around them.</p>
+    </section>
+
+    <section class="qa-item">
+      <h2>Why do the alley gates look so new?</h2>
+      <p class="qa-short">Both associations renewed their entrance signs recently.</p>
+      <p class="a">In December 2020, the Sanko side put up new gate signs designed with the Japanese retailer BEAMS. In March 2022, the Golden Gai side replaced its gate signs for the first time in about 60 years.</p>
+    </section>
+  </div>
+
+  <p class="qa-source">Based on the Shinjuku Golden Gai Anshin Joho Map, published by the Shinjuku Tourism Promotion Association (April 2022).</p>
+  <a class="qa-cta" href="#map">Open the bar map</a>
+</div>
+
 <div class="peek" id="peek" aria-hidden="true"></div>
 <div class="scrim" id="scrim"></div>
 <aside class="panel" id="panel" aria-hidden="true" aria-labelledby="pName"></aside>
 
 <script>
-/* =====================================================================
-   SHOP INFO — fill this in as you collect data.
-   Key = shop id (shown in the browser console: GG.list()).
-   Every field is optional; empty fields show "Not listed yet".
-   ---------------------------------------------------------------------
-   "red": {
-     cover: "¥1,000",            // seating / cover charge
-     drinksFrom: "¥800",
-     hours: "20:00–04:00",
-     closed: "Sundays",
-     payment: "Cash only",
-     english: "Menu in English",
-     instagram: "account_name",  // without @
-     photo: "img/red.jpg",       // signboard photo (shown on hover)
-     note: "Welcomes first-timers."
-   },
-   ===================================================================== */
-const SHOP_INFO = {};
-
 /* ---------- alleys ---------- */
 const ALLEYS = {
   s8:{en:'Hanazono 8th Alley', short:'8th Alley', ja:'あかるい花園8番街', c:'#FF9F43'},
   s5:{en:'Hanazono 5th Alley', short:'5th Alley', ja:'あかるい花園5番街', c:'#FF6FC1'},
   s3:{en:'Hanazono 3rd Alley', short:'3rd Alley', ja:'あかるい花園3番街', c:'#4DB8FF'},
   s1:{en:'Hanazono 1st Alley', short:'1st Alley', ja:'あかるい花園1番街', c:'#FF5A67'},
-  g2:{en:'Golden Gai G2', short:'G2', ja:'ゴールデン街G2', c:'#B8F25C'},
-  g1:{en:'Golden Gai G1', short:'G1', ja:'ゴールデン街G1', c:'#A98BFF'},
+  g2:{en:'Golden Gai G2', short:'G2', ja:'ゴールデン街G2通り', c:'#B8F25C'},
+  g1:{en:'Golden Gai G1', short:'G1', ja:'ゴールデン街G1通り', c:'#A98BFF'},
   mn:{en:'Maneki-dori', short:'Maneki-dori', ja:'まねき通り', c:'#FFD93D'},
-  kb:{en:'Hanazono Koban-dori', short:'Koban-dori', ja:'花園交番通り', c:'#3EE0C0'},
+  kb:{en:'Maruha Building', short:'Maruha Bldg.', ja:'マルハビル', c:'#3EE0C0'},
 };
 
-/* ---------- tiles: geometry traced from the reference map ---------- */
+/* ---------- tiles (layout of April 2022) ---------- */
 const T = [];
 function S(x0,x1,y,ja,en,floor,alley,type='bar'){ T.push({x0,x1,y0:y[0],y1:y[1],ja,en,floor,alley,type}); }
 
-// Maneki-dori (west column)
+// Maneki-dori column
 const MNY=[[102,123],[124,144],[145,164],[165,185],[186,205],[206,226],[227,246],[247,267],[268,287],[288,307],[309,328],[329,348],[350,369],[370,389],[391,410],[411,430],[431,450],[452,471],[472,491],[493,512],[513,532],[534,553],[554,572],[574,592],[594,612],[614,632],[634,652],[653,672],[673,694]];
-[['住宅','Residence',null,'other'],['パーバスター','Parbuster'],['bar sono','bar sono','2F'],['bar PHO','bar PHO'],['こっこめ','Kokkome','2F'],['ジュール','Jule'],['Smile','Smile','2F'],['PinkRoro','PinkRoro'],['肉人','Nikujin'],['グリゼット','Grisette'],['中ちゃん','Naka-chan'],['ひまわり','Himawari'],['紀久子','Kikuko'],['88p','88p','2F'],['何となく','Nantonaku'],['美香','Mika'],['ゴッサム','Gotham'],['キャロット','Carrot'],['K','K'],['新栄','Shinei'],['ハーメルン','Hameln'],['待夢','Taimu','2F'],['三光組合事務所','Sanko Association Office',null,'other'],['バンビ','Bambi'],['チルドレン','Children'],['エピローグ','Epilogue'],['友','Tomo'],['トロール','Troll'],['Bar dot','Bar dot']]
+[['住宅','Residence',null,'other'],['バーバスター','Bar Buster'],['bar woods','bar woods','2F'],['bar PHO','bar PHO','1F'],['こっこめ','Kokkome','2F'],['ジュール','Bar Jule','1F'],['Smile','Smile','2F'],['Pink Roro','Pink Roro','1F'],['肉人2910','Nikuto 2910'],['グリゼット','Grisette'],['中ちゃん','Naka-chan'],['ひまわり','Himawari'],['紀久子','Kikuko','1F'],['88p','88p','2F'],['Bar 何となく…','Bar Nantonaku'],['美香','Mika'],['ゴッサム','Gotham'],['キャロット','Carrot'],['Bar K','Bar K','1F'],['新栄','Shinei','2F'],['Bar.Hameln','Bar.Hameln','1F'],['bar 待夢','bar Taimu','2F'],['三光組合事務所','Sanko Association Office',null,'other'],['バンビ','Bambi'],['チルドレン','Children'],['エピローグ','Epilogue'],['友','Tomo'],['TROLL','TROLL'],['bar sono','bar sono']]
  .forEach((r,i)=>S(46,114,MNY[i],r[0],r[1],r[2]||null,'mn',r[3]||'bar'));
 
-// 8th Alley, north block
-S(157,182,[119,134],'流民','Rumin',null,'s8');
+// north block of 8th Alley
+S(157,182,[119,134],'流民','Riumin',null,'s8');
 S(183,208,[119,134],'シーホース','Seahorse',null,'s8');
 S(209,234,[119,134],'FUJISAN','FUJISAN',null,'s8');
-S(157,234,[135,151],'CREMASTER','CREMASTER',null,'s8');
-S(157,193,[152,162],'ダーリン','Darling',null,'s8');
-S(194,234,[152,162],'ハニー','Honey',null,'s8');
-S(157,193,[163,174],'如月','Kisaragi',null,'s8');
-S(194,234,[163,174],'SASUKE','SASUKE',null,'s8');
-S(157,193,[175,187],'Suzy-Q','Suzy-Q',null,'s8');
-S(194,234,[175,187],'If','If','2F','s8');
-S(157,234,[188,200],'nagune','nagune',null,'s8');
+S(157,234,[135,151],'CREMASTER','CREMASTER',null,'mn');
+S(157,193,[152,162],'ダーリン','Darling',null,'mn');
+S(194,234,[152,162],'ハニー','Honey','2F','mn');
+S(157,193,[163,174],'如月','Kisaragi',null,'mn');
+S(194,234,[163,174],'SASUKE','SASUKE','2F','mn');
+S(157,193,[175,187],'SUZY-Q','SUZY-Q',null,'mn');
+S(194,234,[175,187],'if','if','2F','mn');
+S(157,234,[188,200],'nagune','nagune',null,'mn');
 S(235,296,[119,134],'あび庵','Abi-an',null,'s8');
-S(235,296,[135,173],'Diner 5GALLONS','Diner 5GALLONS',null,'s8');
+S(235,296,[135,154],'麺屋 我論','Menya Garon',null,'s8','food');
+S(235,296,[155,173],'DINER 5 GALLONS','Diner 5 Gallons',null,'s8');
 S(235,296,[175,200],'住宅','Residence',null,'s8','other');
 S(297,403,[119,200],'メリスマンション','Meris Mansion',null,'s8','other');
-S(404,470,[119,134],'能鞄修理店','Bag repair',null,'s8','other');
+S(404,470,[119,134],'靴鞄修理店','Shoe & bag repair',null,'s8','other');
 S(404,492,[136,200],'橋本ビル','Hashimoto Bldg.',null,'s8','other');
-S(494,515,[119,148],'pavo','pavo','1F','s8');
+S(494,515,[119,148],'PAVO','PAVO','1F','s8');
 S(494,540,[149,161],'QT','QT',null,'s8');
 S(541,585,[149,161],'SPADE','SPADE',null,'s8');
 S(494,585,[162,174],'クリシュナ','Krishna','2F','s8');
-S(494,540,[175,187],'BtoB','BtoB','3F','s8');
+S(494,540,[175,187],'B to B','B to B','3F','s8');
 S(541,585,[175,187],'3rd ROOM','3rd ROOM','4F','s8');
 S(494,585,[188,200],'ファミリーマート','FamilyMart',null,'s8','other');
 
-// block between 8th & 5th (doors on 5th Alley)
+// between 8th & 5th (doors on 5th Alley)
 {const A2=[201,231],A1=[232,276],AS=[201,276],B='1F & 2F',a='s5';
 S(172,192,AS,'AZITO','AZITO',B,a);
 S(193,214,A2,'ビッグリバー','Big River','2F',a); S(193,214,A1,'琥珀','Kohaku','1F',a);
-S(215,234,A2,'dragon-l','dragon-l','2F',a); S(215,234,A1,'LAKI LAKI','LAKI LAKI','1F',a);
-S(235,255,A2,'翁','Okina','2F',a); S(235,255,A1,'千華','Senka','1F',a);
+S(215,234,A2,'浮雲','Ukigumo','2F',a); S(215,234,A1,'Laki Laki','Laki Laki','1F',a);
+S(235,255,A2,'翁','Okina','2F',a); S(235,255,A1,"ADIEU L'AMI","Adieu L'Ami",'1F',a);
 S(256,276,A2,'red.','red.','2F',a); S(256,276,A1,'れもんの木','Lemon no Ki','1F',a);
 S(277,293,AS,'やどかり','Yadokari',B,a);
-S(294,320,A2,'add+','add+','2F',a); S(294,320,A1,'小料理遊','Koryori Yu','1F',a);
-S(321,345,A2,'西瓜糖','Suikato','2F',a); S(321,345,A1,'BUTI','BUTI','1F',a);
-S(347,360,A2,'チキッテン','Chikitten','2F',a); S(347,360,A1,'真湖','Mako','1F',a);
+S(294,320,A2,'百千鳥','Momochidori','2F',a); S(294,320,A1,'add+','add+','1F',a);
+S(321,345,A2,'西瓜糖','Suikato','2F',a); S(321,345,A1,'Buti','Buti','1F',a);
+S(347,360,A2,'チキッチン','Chikitchin','2F',a); S(347,360,A1,'真湖','Mako','1F',a);
 S(361,383,A2,'住宅','Residence','2F',a,'other'); S(361,383,A1,'マチュカバー','Machuka Bar','1F',a);
 S(384,404,AS,'カリメロ','Calimero',B,a);
-S(405,451,A2,'パインツリー','Pine Tree','2F',a); S(405,428,A1,'レカン','Lecan','1F',a); S(429,451,A1,'夏の扉','Natsu no Tobira','1F',a);
-S(452,471,AS,'カンガルーコート','Kangaroo Court',B,a);
-S(472,493,A2,'二都物語','Nito Monogatari','2F',a); S(472,493,A1,'ボヨ','Boyo','1F',a);
-S(494,516,A2,'HIP','HIP','2F',a); S(494,516,A1,'ルマタン','Rumatan','1F',a);
-S(517,540,AS,'The Open Book','The Open Book',B,a);
-S(541,561,AS,'SKAVLA','SKAVLA',B,a);
-S(562,585,AS,'','',null,a,'vacant');}
+S(405,451,A2,'ぱいんつりー','Pine Tree','2F',a); S(405,428,A1,'レカン','Lecan','1F',a); S(429,451,A1,'夏の扉','Natsu no Tobira','1F',a);
+S(452,471,AS,'Kangaroo Court Decision','Kangaroo Court',B,a);
+S(472,493,A2,'二都物語','Nito Monogatari','2F',a); S(472,493,A1,'ポヨ','Poyo','1F',a);
+S(494,516,A2,'HIP','HIP','2F',a); S(494,516,A1,'ル・マタン','Le Matin','1F',a);
+S(517,540,AS,'the OPEN BOOK','The Open Book',B,a);
+S(541,561,A2,'ミロククラブ','Miroku Club','2F',a); S(541,561,A1,'SKAVLA','SKAVLA','1F',a);
+S(562,585,AS,'BAR ブラン別館','Bar Blanc Annex',B,a);}
 
-// 5th Alley, south side (doors on 5th Alley)
+// 5th Alley, south side
 {const N1=[306,331],N2=[333,360],NS=[306,360],B='1F & 2F',a='s5';
 S(172,192,NS,'トミー','Tommy',B,a);
-S(193,214,N1,'ところ処','Tokoro-dokoro','1F',a); S(193,214,N2,'ロベリヤ','Lobelia','2F',a);
-S(215,234,NS,'ベベ','Bebe',B,a);
+S(193,214,N1,'ところ処','Tokorodokoro','1F',a); S(193,214,N2,'ロベリヤ','Roberiya','2F',a);
+S(215,234,NS,'ぺぺ','Pepe',B,a);
 S(235,255,N1,'UKATSU','UKATSU','1F',a); S(235,255,N2,'K-St.','K-St.','2F',a);
-S(256,276,N1,'そんなかんじ','Sonna Kanji','1F',a); S(256,276,N2,'パノラマの夜','Panorama no Yoru','2F',a);
+S(256,276,N1,'Mar そんなかんじ…','Sonna Kanji','1F',a); S(256,276,N2,'呑場 パノラマの夜','Panorama no Yoru','2F',a);
 S(277,294,NS,'鳥立ち','Toridachi',B,a);
-S(296,320,NS,'アルバトロスG','Albatross G',B,a);
-S(321,346,NS,'モンゴリアンドランク','Mongolian Drunk',B,a);
+S(296,320,NS,'ALBATROSS G','Albatross G',B,a);
+S(321,346,NS,'MONGOLIAN DRUNK','Mongolian Drunk',B,a);
 S(361,382,N1,'Sea&Sun','Sea & Sun','1F',a); S(384,404,N1,'ぺんぎん村','Penguin Mura','1F',a); S(361,404,N2,'Grey','Grey','2F',a);
-S(405,429,N1,'ビアンカ','Bianca','1F',a); S(405,429,N2,'かおりー','Kaori','2F',a);
+S(405,429,N1,'ビアンカ','Bianca','1F',a); S(405,429,N2,'かおりノ夢ハ夜ヒラク','Kaori no Yume','2F',a);
 S(430,451,NS,'Pitou','Pitou',B,a);
 S(452,472,N1,'BAR 時','Bar Toki','1F',a); S(452,472,N2,'追い風','Oikaze','2F',a);
-S(473,494,N1,'銀河系','Gingakei','1F',a); S(473,494,N2,'シネストーク','Cinestalk','2F',a);
-S(495,515,N1,'媚王','Bio','1F',a); S(495,515,N2,'松龍亭','Shoryutei','2F',a);}
+S(473,494,N1,'銀河系','Gingakei','1F',a); S(473,494,N2,'cine stork','cine stork','2F',a);
+S(495,515,N1,'蛾王','Gao','1F',a); S(495,515,N2,'松鐘亭','Shoshotei','2F',a);}
 
-// building on Koban-dori
+// Maruha Building (on Hanazono Koban-dori)
 {const a='kb';
 S(516,540,[306,332],'Happy','Happy','3F',a); S(541,561,[306,332],'初回盤B','Shokaiban B','3F',a); S(562,586,[306,332],'ウラキュー','Urakyu','3F',a);
-S(516,540,[333,360],'Heavy Gauge','Heavy Gauge','2F',a); S(541,561,[333,360],'猟奇屋','Ryokiya','2F',a); S(562,586,[333,360],'Chilly Chili9','Chilly Chili9','2F',a);
-S(516,586,[361,389],'新宿ゴールデン街劇場','Golden Gai Theater','1F',a,'venue');
-S(516,540,[390,418],'YOURS','YOURS','B1',a); S(541,562,[390,418],"Ken's Bar","Ken's Bar",'B1',a); S(563,586,[390,418],'BAR ウラメン','Bar Uramen','B1',a);}
+S(516,540,[333,360],'Heavy Gauge','Heavy Gauge','2F',a); S(541,561,[333,360],'dragon i','dragon i','2F',a); S(562,586,[333,360],'チリチリナイン','Chiri Chiri Nine','2F',a);
+S(516,586,[361,389],'unLIMITED','unLIMITED','1F',a);
+S(516,540,[390,418],'YOURS','YOURS','B1',a); S(541,562,[390,418],"Ken's bar","Ken's bar",'B1',a); S(563,586,[390,418],'BAR ウラメン','Bar Uramen','B1',a);}
 
-// north side of 3rd Alley (back of the 5th Alley block)
+// 3rd Alley, north side
 {const M2=[361,390],M1=[391,419],MS=[361,419],B='1F & 2F',a='s3';
 S(172,192,MS,'ソワレ','Soirée',B,a);
-S(193,214,M2,'ブルードラゴン','Blue Dragon','2F',a); S(193,214,M1,'オレンジ王子','Orange Oji','1F',a);
-S(215,234,M2,'べるじゅらっく','Bergerac','2F',a); S(215,234,M1,'Bali','Bali','1F',a);
-S(235,255,MS,'強飲','Kyoin',B,a);
-S(256,294,M2,'O2','O2','2F',a); S(256,276,M1,'shampoo','shampoo','1F',a); S(277,294,M1,'カボシャール','Cabochard','1F',a);
-S(296,320,M2,'酔月','Suigetsu','2F',a); S(296,320,M1,'吉田商店','Yoshida Shoten','1F',a);
+S(193,214,M2,'BLUE DRAGON','Blue Dragon','2F',a); S(193,214,M1,'オレンジ王子','Orange Oji','1F',a);
+S(215,234,M2,'酒乱童べるじゅらっく','Bergerac','2F',a); S(215,234,M1,'Bali','Bali','1F',a);
+S(235,255,M2,'強飲2F','Goin 2F','2F',a); S(235,255,M1,'強飲1F','Goin 1F','1F',a);
+S(256,294,M2,'O2','O2','2F',a); S(256,276,M1,'Shampoo','Shampoo','1F',a); S(277,294,M1,'cabochard','cabochard','1F',a);
+S(296,320,M2,'ラッキー','Lucky','2F',a); S(296,320,M1,'マワシゲリ','Mawashigeri','1F',a);
 S(321,346,M2,'東京BOOTH','Tokyo Booth','2F',a); S(321,346,M1,'租界','Sokai','1F',a);
 S(361,383,MS,'スエズ','Suez',B,a);
-S(384,404,M2,"Kenzo's Bar","Kenzo's Bar",'2F',a); S(384,404,M1,'裏窓','Uramado','1F',a);
-S(405,429,M2,'うたげ','Utage','2F',a); S(405,429,M1,'すず','Suzu','1F',a);
+S(384,404,M2,"KENZO'S BAR","Kenzo's Bar",'2F',a); S(384,404,M1,'裏窓','Uramado','1F',a);
+S(405,429,M2,'あの時の女','Ano Toki no Onna','2F',a); S(405,429,M1,'すず','Suzu','1F',a);
 S(430,451,MS,'ガルガンチュア','Gargantua',B,a);
-S(452,472,M2,'鉄Singシネマ','Tetsu Sing Cinema','2F',a); S(452,472,M1,'JAN JUNE','JAN JUNE','1F',a);
-S(473,515,M2,'Cambiare','Cambiare','2F',a); S(473,516,M1,'生ハム&BAR エポカ','Epoca','1F',a);}
+S(452,472,M2,'談Singシネマ','Dan Sing Cinema','2F',a); S(452,472,M1,'JAN JUNE','JAN JUNE','1F',a);
+S(473,515,M2,'Cambiare','Cambiare','2F',a); S(473,516,M1,'生ハム&bar エポカ','Epoca','1F',a);}
 
-// south side of 3rd Alley
+// 3rd Alley, south side
 {const P1=[444,470],P2=[471,498],PS=[444,498],B='1F & 2F',a='s3';
-S(173,192,PS,'洗濯船','Sentakubune',B,a);
+S(173,192,PS,'洗濯船','Sentakusen',B,a);
 S(193,212,PS,'キネマ倶楽部','Kinema Club',B,a);
-S(213,234,P1,'5GALLONS','5GALLONS','1F',a); S(213,234,P2,'BAR滝','Bar Taki','2F',a);
-S(235,255,PS,'ばるぼら屋','Barbora-ya',B,a);
-S(256,276,P1,'ボルチモア','Baltimore','1F',a); S(256,276,P2,'ジュテ','Jeté','2F',a);
-S(277,295,P1,'原子心母','Atom Heart Mother','1F',a); S(277,295,P2,'The Pearl.','The Pearl.','2F',a);
+S(213,234,P1,'5GALLONS','5 Gallons','1F',a); S(213,234,P2,'BAR滝','Bar Taki','2F',a);
+S(235,255,PS,'ばるぼら屋','Barubora-ya',B,a);
+S(256,276,P1,'Baltimore','Baltimore','1F',a); S(256,276,P2,'ジュテ','Jeté','2F',a);
+S(277,295,P1,'原子心母','Atom Heart Mother','1F',a); S(277,295,P2,'the PearL','The Pearl','2F',a);
 S(296,320,P1,'zuma.','zuma.','1F',a); S(296,320,P2,'WHO','WHO','2F',a);
 S(321,346,P1,'十六夜','Izayoi','1F',a); S(321,346,P2,'たちばな診察室','Tachibana Clinic','2F',a);
-S(361,383,P1,'ゴールデンダスト','Golden Dust','1F',a); S(361,383,P2,'Dume Bar','Dume Bar','2F',a);
-S(384,405,P1,'ピース','Peace','1F',a); S(384,405,P2,'toto Bar','toto Bar','2F',a);
-S(406,429,PS,'BAR COO','BAR COO',B,a);
+S(361,383,P1,'ゴールデンダスト','Golden Dust','1F',a); S(361,383,P2,'Dume bar','Dume bar','2F',a);
+S(384,405,P1,'PIECE','PIECE','1F',a); S(384,405,P2,'toto Bar','toto Bar','2F',a);
+S(406,429,PS,'BAR COO 空','BAR COO',B,a);
 S(430,452,P1,'赤花','Akabana','1F',a); S(430,452,P2,'zilch','zilch','2F',a);
-S(453,474,P1,'シエロ','Cielo','1F',a); S(453,474,P2,'','','2F',a,'vacant');
-S(475,495,P1,'','','1F',a,'vacant'); S(475,495,P2,'','','2F',a,'vacant');
-S(496,517,PS,'ハモンド','Hammond',B,a);
-S(519,539,P1,'Death Match','Death Match','1F',a);
-S(540,561,P1,'Bar るつぼ','Bar Rutsubo','1F',a); S(540,561,P2,'スクエア','Square','2F',a);
-S(562,585,P1,'シャドウ','Shadow','1F',a); S(562,585,P2,'珍香','Chinka','2F',a);}
+S(453,474,P1,'シエロ','Cielo','1F',a); S(453,474,P2,'沙華','Shaka','2F',a);
+S(475,495,PS,'たくのみ','Takunomi',B,a);
+S(496,517,PS,'Hamoon-d','Hamoon-d',B,a);
+S(519,539,P1,'DEATH MATCH','Death Match','1F',a);
+S(540,561,P1,'BAR るつぼ','Bar Rutsubo','1F',a); S(540,561,P2,'SQUARE','SQUARE','2F',a);
+S(562,585,P1,'シャドウ','Shadow','1F',a); S(562,585,P2,'珍呑','Chindon','2F',a);
+S(475,495,[499,528],'Asyl','Asyl','2F',a); S(475,495,[530,560],'jun&co','jun&co','1F',a);}
 
-// north side of 1st Alley
+// 1st Alley, north side
 {const Q2=[499,530],Q1=[531,560],QS=[499,560],B='1F & 2F',a='s1';
 S(519,539,[471,528],'ナベサン','Nabesan','2F',a);
 S(172,192,QS,'ナナ','Nana',B,a);
 S(193,214,QS,'トゥモロー','Tomorrow',B,a);
-S(215,234,Q2,'','','2F',a,'vacant'); S(215,234,Q1,'新宿櫻亭','Shinjuku Sakuratei','1F',a);
-S(235,255,QS,'HOD','HOD',B,a);
+S(215,234,Q2,'','','2F',a,'vacant'); S(215,234,Q1,'新宿櫻亭','Sakuratei','1F',a);
+S(235,255,QS,'HOD','H.O.D',B,a);
 S(256,276,QS,'音吉','Otokichi',B,a);
-S(277,320,Q2,'ひしょう','Hisho','2F',a); S(277,295,Q1,'2×4=8','2×4=8','1F',a); S(296,320,Q1,'BILLY','BILLY','1F',a);
+S(277,320,Q2,'ドラゴンナイト!!','Dragon Night!!','2F',a); S(277,295,Q1,'2×4=8','2×4=8','1F',a); S(296,320,Q1,'BILLY','BILLY','1F',a);
 S(321,346,QS,'奥亭','Okutei',B,a);
-S(361,383,Q2,'遠足','Ensoku','2F',a); S(361,383,Q1,'中','Naka','1F',a);
-S(384,405,Q2,'ゲットー','Ghetto','2F',a); S(384,405,Q1,'ブルーローズ','Blue Rose','1F',a);
+S(361,383,Q2,'遠足','Ensoku','2F',a); S(361,383,Q1,'申','Saru','1F',a);
+S(384,405,Q2,'bar GHETTO','bar GHETTO','2F',a); S(384,405,Q1,'Blue Rose','Blue Rose','1F',a);
 S(406,429,QS,'無銘喫茶','Mumei Kissa',B,a);
-S(430,452,Q2,'どこ','Doko','2F',a); S(430,452,Q1,'EUPHORIA','EUPHORIA','1F',a);
+S(430,452,Q2,'どこ','Doko','2F',a); S(430,452,Q1,'愛鷹','Ashitaka','1F',a);
 S(453,474,Q2,'ねこ娘','Neko Musume','2F',a); S(453,474,Q1,'深夜+1','Shinya +1','1F',a);
-S(475,495,[499,528],'Asyl','Asyl','2F',a); S(475,495,Q1,'','','1F',a,'vacant');
-S(496,518,Q2,'BOUY','BOUY','2F',a); S(496,518,Q1,'ガルシア','Garcia','1F',a);
+S(496,518,Q2,'Buoy','Buoy','2F',a); S(496,518,Q1,'ガルシア','Garcia','1F',a);
 S(519,539,[530,560],'一歩','Ippo','1F',a);
 S(540,561,QS,'サーヤ','Saya',B,a);
 S(562,585,QS,'ロンリー','Lonely',B,a);}
 
-// south side of 1st Alley
+// 1st Alley, south side
 {const R1=[583,613],R2=[614,645],RS=[583,645],B='1F & 2F',a='s1';
 S(172,192,R1,'OIL','OIL','1F',a); S(172,192,R2,'南海','Nankai','2F',a);
 S(193,212,R1,'気仙坂','Kesenzaka','1F',a); S(193,212,R2,'Buzz','Buzz','2F',a);
-S(213,234,R1,'虎の穴','Tora no Ana','1F',a); S(213,234,R2,'Alley nuts','Alley nuts','2F',a);
-S(235,255,R1,'SLOW HAND','SLOW HAND','1F',a); S(235,255,R2,'?','?','2F',a);
-S(277,294,R1,'レスポワール別館',"L'Espoir Annex",'1F',a); S(277,294,R2,'ダンさん','Dan-san','2F',a);
-S(295,321,R1,'うとうと','Utouto','1F',a); S(295,321,R2,'あるばか','Arubaka','2F',a);
-S(322,346,R1,'風の森','Kaze no Mori','1F',a); S(322,346,R2,'シネストークYOYO','Cinestalk YOYO','2F',a);
-S(347,360,R1,'アパッシュ','Apache','1F',a); S(347,360,R2,'ボニータ','Bonita','2F',a);
-S(384,402,R1,'MISO SOUP','MISO SOUP','1F',a); S(384,402,R2,'澪','Mio','2F',a);
-S(403,430,R1,'エスパ','Espa','1F',a); S(403,430,R2,'DESERT INN','DESERT INN','2F',a);
-S(431,451,R1,'しの','Shino','1F',a); S(431,451,R2,'ことじ','Kotoji','2F',a);
+S(213,234,R1,'虎の穴','Tora no Ana','1F',a); S(213,234,R2,'Alley nuts','Alley Nuts','2F',a);
+S(235,255,R1,'SLOW HAND','Slow Hand','1F',a); S(235,255,R2,'?','?','2F',a);
+S(277,294,R1,'レスポワール純',"L'Espoir Jun",'1F',a); S(277,294,R2,'ダンさん','Dan-san','2F',a);
+S(295,321,R1,'うと・うと','Uto Uto','1F',a); S(295,321,R2,'あるぱか','Arupaka','2F',a);
+S(322,346,R1,'風の森','Kaze no Mori','1F',a); S(322,346,R2,'シネストークYOYO','Cine Stork YOYO','2F',a);
+S(347,360,R1,'APACHE','Apache','1F',a); S(347,360,R2,'BONITA','Bonita','2F',a);
+S(384,402,R1,'MISO SOUP','miso soup','1F',a); S(384,402,R2,'あ澤/夜澤','Asawa / Yorusawa','2F',a);
+S(403,430,R1,'エスパ','Espa','1F',a); S(403,430,R2,'DESERT INN','Desert Inn','2F',a);
+S(431,451,R1,'しの','Shino','1F',a); S(431,451,R2,'こどじ','Kodoji','2F',a);
 S(453,472,RS,'うるわし','Uruwashi',B,a);
 S(474,493,RS,'久絽','Kuro',B,a);}
 
-// north side of G2
+// G2, north side
 {const T2=[646,672],T1=[673,699],TS=[646,699],B='1F & 2F',a='g2';
-S(172,192,T2,"The Everybody's","The Everybody's",'2F',a); S(193,214,T2,'くさんちっぺ','Kusanchippe','2F',a); S(172,214,T1,'どんがらがっしゃん','Dongara Gasshan','1F',a);
-S(215,255,T2,'クラクラ','Kura Kura','2F',a); S(215,234,T1,"Ace's","Ace's",'1F',a); S(235,255,T1,'クラクラ2','Kura Kura 2','1F',a);
+S(172,192,T2,'BRIAN BAR','Brian Bar','2F',a); S(193,214,T2,'くさんちっぺ','Kusanchippe','2F',a); S(172,214,T1,'どんがらがっしゃん','Dongaragasshan','1F',a,'food');
+S(215,255,T2,'クラクラ','Kura Kura','2F',a); S(215,234,T1,"Ace's","ACE's",'1F',a); S(235,255,T1,'クラクラ2','Kura Kura 2','1F',a);
 S(277,294,T2,'青春','Seishun','2F',a); S(277,294,T1,'中村酒店','Nakamura Saketen','1F',a);
 S(295,321,T2,'夜間飛行','Yakan Hiko','2F',a); S(295,321,T1,'瑠璃','Ruri','1F',a);
-S(322,346,T2,'','','2F',a,'vacant'); S(322,346,T1,'ZUCCA','ZUCCA','1F',a);
-S(347,360,T2,'ちゃこ','Chako','2F',a); S(347,360,T1,'＊','*','1F',a);
+S(322,346,T2,'八十八','Yasoya','2F',a); S(322,346,T1,'ZUCCA','ZUCCA','1F',a);
+S(347,360,T2,'chaco','chaco','2F',a); S(347,360,T1,'ASTERISK','Asterisk','1F',a);
 S(384,402,T2,'かぼちゃ','Kabocha','2F',a); S(384,402,T1,'Evi','Evi','1F',a);
-S(403,451,T2,'araku','araku','2F',a); S(403,428,T1,'10cc','10cc','1F',a); S(429,451,T1,'出窓','Demado','1F',a);
+S(403,451,T2,'araku','Araku','2F',a); S(403,428,T1,'10cc','10cc','1F',a); S(429,451,T1,'出窓','Demado','1F',a);
 S(453,472,TS,'しんしら','Shinshira',B,a);
-S(474,493,TS,'双葉','Futaba',B,a);}
+S(474,493,T2,'きしめん処 双葉','Kishimen Futaba','2F',a,'food'); S(474,493,T1,'双葉','Futaba','1F',a);}
 
-// south side of G2
+// G2, south side
 {const U1=[728,755],U2=[757,786],US=[728,786],B='1F & 2F',a='g2';
 S(60,90,US,'チャンピオン','Champion',B,a);
-S(92,124,U1,'ami','ami','1F',a); S(92,124,U2,'ANIME HOLIC','ANIME HOLIC','2F',a);
-S(126,155,[728,742],'月に吠える','Tsuki ni Hoeru','1F',a); S(126,155,[743,755],'馬鹿裸','Bakara','1F',a); S(126,155,U2,'猪鹿蝶','Inoshikacho','2F',a);
+S(92,124,U1,'ami♥','ami','1F',a); S(92,124,U2,'アニメホリック','Anime Holic','2F',a);
+S(126,155,[728,742],'月に吠える','Tsuki ni Hoeru','1F',a); S(126,155,[743,755],'KArMA','KArMA','1F',a); S(126,155,U2,'猪鹿蝶','Inoshikacho','2F',a);
 S(173,190,U1,'Peg','Peg','1F',a); S(173,190,U2,'シラムレン','Shiramuren','2F',a);
 S(192,214,U1,'小鉄','Kotetsu','1F',a); S(192,214,U2,'十月','Jugatsu','2F',a);
-S(215,235,U1,'anchor','anchor','1F',a); S(215,235,U2,'酔2','Sui 2','2F',a);
+S(215,235,U1,'ANCHOR','Anchor','1F',a); S(215,235,U2,'おでんBar 酔2','Sui 2','2F',a);
 S(236,255,U1,'UP OUT','UP OUT','1F',a); S(236,255,U2,'RENO','RENO','2F',a);
-S(277,296,U1,'BAR CA','BAR CA','1F',a); S(277,296,U2,'凪','Nagi','2F',a);
-S(297,321,U1,'451F','451F','1F',a); S(297,321,U2,'PARASOL','PARASOL','2F',a);
-S(322,345,U1,'','','1F',a,'vacant'); S(322,345,U2,'こもれび','Komorebi','2F',a);
-S(347,360,US,'フラッパー','Flapper',B,a);
+S(277,296,U1,'BARCA','BARCA','1F',a); S(277,296,U2,'すごい煮干ラーメン凪','Ramen Nagi','2F',a,'food');
+S(297,321,U1,'451°F','451°F','1F',a); S(297,321,U2,'PARASOL','PARASOL','2F',a);
+S(322,345,US,'comorebi','comorebi',B,a);
+S(347,360,US,'FLAPPER','Flapper',B,a);
 S(384,404,U1,'吐夢','Tomu','1F',a); S(384,404,U2,'大吉','Daikichi','2F',a);
 S(405,427,U1,'くればわかる','Kureba Wakaru','1F',a); S(405,427,U2,'くればわかる2','Kureba Wakaru 2','2F',a);
 S(429,451,U1,'Halo','Halo','1F',a); S(429,451,U2,'','','2F',a,'vacant');
 S(453,470,U1,'のんちゃん','Non-chan','1F',a); S(453,470,U2,'','','2F',a,'vacant');
 S(494,516,U1,'石の花','Ishi no Hana','1F',a); S(494,516,U2,'ナイチンゲール','Nightingale','2F',a);
 S(518,541,U1,'plastic model','plastic model','1F',a); S(518,541,U2,'和三盆','Wasanbon','2F',a);
-S(543,559,[739,766],'（店名確認中）','Name to confirm','3F',a);
-S(542,586,[768,786],'HIDE','HIDE','3F',a);}
+S(543,559,[739,766],'誠美興業','Seibi Kogyo','3F',a,'other');
+S(542,586,[768,786],'HIDE','HIDE','3F','g1');}
 
 // G1
 {const V2=[787,818],V1=[819,844],VS=[787,844],B='1F & 2F',a='g1';
 S(60,115,V2,'図書室','Toshoshitsu','2F',a); S(60,115,V1,'がまぐち','Gamaguchi','1F',a);
 S(116,156,V2,'トレトレ','Tore Tore','2F',a); S(116,156,V1,'水の木','Mizu no Ki','1F',a);
 S(172,214,V2,'Barブラン','Bar Blanc','2F',a); S(172,214,V1,'Diamond bar','Diamond bar','1F',a);
+S(215,235,V2,'BAR たまや','Tamaya','2F',a); S(215,235,V1,'三坪＋一','Santsubo +1','1F',a);
 S(236,256,VS,'小鳥','Kotori',B,a);
 S(277,295,V2,'夢二','Yumeji','2F',a); S(277,295,V1,'エクリプス','Eclipse','1F',a);
-S(296,321,V2,'TWIN','TWIN','2F',a); S(296,321,V1,'ブッシーフット','Pussyfoot','1F',a);
+S(296,321,V2,'TWIN','TWIN','2F',a); S(296,321,V1,'Pussyfoot','Pussyfoot','1F',a);
 S(322,345,VS,'突風','Toppu',B,a);
-S(347,361,V2,'BAR ROSSO','Bar Rosso','2F',a); S(347,361,V1,'SUZU BAR','SUZU BAR','1F',a);
+S(347,361,V2,"4C's BAR ROSSO","4C's Rosso",'2F',a); S(347,361,V1,'SUZU BAR','SUZU BAR','1F',a);
 S(384,404,VS,'しん亭こう路','Shintei Koji',B,a);
-S(405,427,V2,'メガンテ','Megante','2F',a); S(405,427,V1,'へ久','Hekyu','1F',a);
+S(405,427,V2,'BAR UISCE','Bar Uisce','2F',a); S(405,427,V1,'久（CUE）','CUE','1F',a);
 S(429,449,V2,'Decoy','Decoy','2F',a); S(429,449,V1,'花の園','Hana no Sono','1F',a);
 S(450,470,V2,"papa's dream","papa's dream",'2F',a); S(450,470,V1,'Hecate','Hecate','1F',a);
-S(494,541,V2,'ROCKET','ROCKET','2F',a); S(494,516,V1,'ZORY','ZORY','1F',a); S(518,541,V1,'ポニー','Pony','1F',a);
-S(542,585,V2,'Hungry Humphrey','Hungry Humphrey','2F',a); S(542,585,V1,"BON'S","BON'S",'1F',a);}
+S(494,541,V2,'ROCKET','ROCKET','2F',a); S(494,516,V1,'zory','zory','1F',a); S(518,541,V1,'ポニー','Pony','1F',a);
+S(542,585,V2,'Hungry Humphrey','Hungry Humphrey','2F',a); S(542,585,V1,"BON'S","Bon's",'1F',a);}
+
+// restaurants at the north edge (listed with 8th Alley)
+S(47,170,[26,99],'一軒家個室焼肉 百済','Yakiniku Kudara',null,'s8','food');
+S(497,585,[43,98],'炭火焼肉モンシリ','Yakiniku Monshiri','B1 & 1F','s8','food');
+
+/* =====================================================================
+   SHOP INFO — from "Shinjuku Golden Gai Anshin Joho Map"
+   (Shinjuku Tourism Promotion Association, info as of 15 April 2022).
+   Key = tile's Japanese name above.
+   n: full name  d: description  h: hours  c: closed  s: seats (normal)
+   t: phone  e: email  ch: cover charge  m: entry rule  k: kind  x: note
+   Add instagram / photo fields as you collect them.
+   ===================================================================== */
+const INFO = {
+// G1
+'小鳥':{n:'Sakaba Kotori',d:'A bar with proper food and drinking snacks.',h:'18:00–24:00',c:'Sun',s:9,t:'080-5076-8401'},
+'エクリプス':{n:'Eclipse',d:'A horse-racing bar run by its mama-san since 2004.',h:'20:00–24:00',c:'Irregular',s:8,t:'03-3202-1645'},
+'夢二':{n:'Yumeji',d:'A mellow bar inspired by the painter Takehisa Yumeji, staffed by artists.',h:'20:00–03:00',c:'Irregular',s:14,t:'03-3209-3471'},
+'Pussyfoot':{d:'Two adorable shop cats greet you at the door.',h:'20:00–05:00',c:'Irregular',s:10,t:'090-4176-4130'},
+'TWIN':{d:'Motorbikes, disco songs and Showa-era pop.',h:'19:00–02:00',c:'Sun',s:11,t:'03-3208-3696'},
+'突風':{n:'Toppu',d:'The bar of veteran voice actor Hidekatsu Shibata.',h:'19:00–24:00',c:'Holidays',s:20,t:'03-3209-4466',m:'Members only'},
+'SUZU BAR':{n:'Mingei Shubo SUZUBAR',d:'Serious cocktails at friendly prices.',h:'20:00–03:00',c:'Sun',s:7,t:'03-6228-0309'},
+"4C's BAR ROSSO":{n:"4C's Bar ROSSO",d:'Wine on tap and a cat to welcome you.',h:'17:00–05:00 (last order 04:30)',c:'Open daily',s:11,t:'03-5155-1424'},
+'久（CUE）':{n:'CUE',d:'Music in a disco-style room.',h:'20:00–05:00',c:'Open daily',s:8},
+'BAR UISCE':{n:'BAR UISCE',d:'Jazz and single malt whisky.',h:'18:00–late',c:'Sun',s:6,e:'baruisce@gmail.com'},
+'花の園':{n:'Hana no Sono',d:'A hangout for dance and cosplay fans.',h:'18:30–24:00 (last order 23:30)',c:'Sun',s:9},
+'Hecate':{d:'A different woman behind the counter each night.',h:'21:00–04:00',c:'Irregular',s:12,t:'03-6457-6045',m:'Semi-members only, introduction needed'},
+"BON'S":{n:"BON'S",d:'A Western-style food bar that will fill you up.',h:'19:00–05:00 (food last order 04:00)',c:'Open daily',s:30,t:'03-3209-6334'},
+'Hungry Humphrey':{d:'Famous for its curry, with a North African feel.',h:'18:00–01:00',c:'Sun & holidays',s:33,t:'03-3200-6156'},
+'HIDE':{n:'bar HIDE',d:'An authentic bar made for quiet drinking.',h:'18:00–05:00',c:'Irregular',s:20,t:'03-3208-6631'},
+'図書室':{n:'bar Toshoshitsu',d:'A bar stacked with manga to read.',h:'From 20:00',c:'Sun',s:7,t:'03-3203-5043'},
+'トレトレ':{n:'Tore Tore',d:'Easy for solo women and first-timers.',h:'20:00–around 05:00',c:'Irregular',s:8},
+'三坪＋一':{n:'Santsubo Plus One',d:'Relaxing music and home-style obanzai dishes.',h:'19:00–05:00',c:'Open daily',s:7},
+'BAR たまや':{n:'BAR Tamaya',d:'Opened in 2021 in a brand-new building.',h:'19:00–05:00',c:'Open daily',s:10,t:'080-6045-5739'},
+// G2
+'猪鹿蝶':{n:'Inoshikacho',d:'A Japanese bar decorated like an oiran\'s parlor.',h:'20:00–05:00',c:'Open daily',s:12,t:'03-5291-6866'},
+'小鉄':{n:'Sakaba Kotetsu',d:'A long-running bar reborn as a malt whisky bar.',h:'18:00–02:00, Fri & Sat until 04:00',c:'Sun & holidays',s:12,t:'090-6134-0114'},
+'ANCHOR':{d:'Calm and welcoming for all ages.',h:'19:00–04:00 (last order 03:30)',c:'Open daily',s:13},
+'おでんBar 酔2':{n:'Oden Bar Sui 2',d:'Warm up with oden and a quiet drink.',h:'19:00–01:00',c:'Wed',s:11,t:'090-6168-6820'},
+'UP OUT':{d:'Brighter than most Golden Gai bars, and so are the staff.',h:'19:00–02:00',c:'Open daily',s:10},
+'BARCA':{d:'Specializes in Madeira wine from Portugal.',h:'20:00–06:00',c:'Open daily',s:11,t:'03-6457-6320'},
+'すごい煮干ラーメン凪':{n:'Sugoi Niboshi Ramen Nagi',d:'Rich, intensely dried-sardine ramen with thick hand-rubbed noodles.',h:'Open 24 hours',c:'Open daily',s:10,t:'03-3205-1925',k:'Ramen shop'},
+'451°F':{d:'A bright room with a wide range of drinks.',h:'19:00–05:00',c:'Open daily',s:11,t:'03-6457-6320'},
+'PARASOL':{d:'Tropical cocktails and lively nights.',h:'20:00–05:00',c:'Sun',s:15,t:'03-6265-9859'},
+'comorebi':{n:'comorebi-saudade & voyage',d:'A standing bar.',h:'19:00–02:00',c:'Open daily',s:8,t:'03-6457-3080'},
+'FLAPPER':{d:'Drinks and a mix of cultures.',h:'19:00–23:30, all night on Fri & Sat',c:'Open daily',s:12,t:'03-3207-3312'},
+'大吉':{n:'Daikichi',d:'A friendly music bar run by two middle-aged guys.',h:'20:00–05:00',c:'Open daily',s:12,t:'070-2183-1080'},
+'くればわかる':{n:'Kureba Wakaru',d:'Amami Islands home cooking and brown-sugar shochu.',h:'18:00–24:00',c:'Sun',s:10,t:'03-3209-0438'},
+'Halo':{d:'Easy drinking, mostly Japanese spirits.',h:'17:00–03:00',c:'Open daily',s:14,t:'090-4121-8060'},
+'のんちゃん':{n:'Non-chan',d:'Knick-knacks everywhere and paintings by illustrator Ado Mizumori.',h:'18:00–23:00',c:'Sun & holidays',s:10,t:'03-3205-3003'},
+'石の花':{n:'Ishi no Hana',d:'A music lovers\' bar with a big vodka selection.',h:'18:00–24:00',c:'Mon, Sun & holidays',s:15,t:'03-3200-8458'},
+'plastic model':{n:'bar plastic model',d:'Draft beer, with music talk as the snack.',h:'20:00–05:00 (last order 04:00)',c:'Mon & Sun',s:8,t:'03-5273-8441'},
+'和三盆':{n:'Wasanbon',d:'Very characterful staff and conversation on every topic.',h:'19:00–05:00',c:'Open daily',s:12,t:'03-3209-8712'},
+'どんがらがっしゃん':{n:'Kushiage Dongaragasshan',d:'Over 30 kinds of fried skewers and koji-marinated karaage.',h:'17:00–23:00',c:'Sun & holidays',s:23,t:'03-3207-3718',k:'Restaurant'},
+'BRIAN BAR':{d:'Highballs without ice and house-made sours.',h:'19:00–05:00',c:'Irregular',s:14,t:'03-6228-0666'},
+'くさんちっぺ':{n:'Kusanchippe',d:'Rare draft beer in a drinking-at-a-friend\'s-place mood.',h:'From 20:00',c:'Sun',s:8,t:'03-3203-7505'},
+"Ace's":{n:"ACE's MUSIC SALON",d:'A one-night trip around the world of music.',h:'20:00–05:00',c:'Open daily',s:10,t:'090-5801-7886',ch:'No cover charge'},
+'クラクラ':{n:'Kura Kura',d:'A classic Golden Gai counter bar open for over 40 years, plus a large room.',h:'19:00–01:00',c:'Open daily',s:35,t:'03-3209-3660'},
+'クラクラ2':{n:'Kura Kura part2',d:'A quiet whisky bar that claims to be the cheapest around.',h:'19:00–24:00',c:'Open daily',s:11,t:'03-3207-1503'},
+'中村酒店':{n:'Nakamura Saketen',d:'Regulars bring gifts, so with luck you might get a taste.',h:'18:30–02:00',c:'Sun & holidays (irregular)',s:9,t:'03-5273-1737'},
+'青春':{n:'Seishun',d:'Nostalgic vinyl records.',h:'From 20:00 (last order 23:30)',c:'Sun & holidays',s:11,t:'03-3204-2550'},
+'瑠璃':{n:'Ruri',d:'A late-night bar with a simple price system.',h:'20:00–05:00',c:'Open daily',s:8,t:'090-3570-2064',ch:'¥1,500 until midnight, free after. Drinks ¥900.'},
+'夜間飛行':{n:'Snack Yakan Hiko',d:'A snack bar devoted to kayokyoku, classic Japanese pop.',h:'19:00–24:00, Fri & Sat 20:00–05:00',c:'Tue',s:9,t:'03-3207-5586'},
+'ZUCCA':{d:'Cocktails in a year-round Halloween mood.',h:'19:00–03:00 (last order ~02:30)',c:'Sun & holidays',s:10,t:'03-3202-3513'},
+'ASTERISK':{d:'Loud and lively. LGBTQ guests very welcome.',h:'19:00–03:00',c:'Irregular',s:15,t:'03-3208-0666'},
+'Evi':{d:'Comfortable even on your first visit.',h:'20:00–05:00',c:'Open daily',s:12,t:'03-3202-3315'},
+'かぼちゃ':{n:'Kabocha',d:'A rough-and-ready shochu bar.',h:'20:00–24:00',c:'Open daily',s:10,t:'03-3203-7360'},
+'10cc':{d:'For rock fans, with British music at its heart.',h:'19:00–02:00',c:'Sun',s:11,t:'03-3208-6545'},
+'araku':{n:'BAR ARAKU',d:'Walls covered in foreign banknotes.',h:'20:00–24:00, Fri & Sat until 02:00',c:'Irregular',s:25,t:'03-5272-1651'},
+'出窓':{n:'Demado Bay Window',d:'Service tailored to each guest.',h:'19:00–03:00',c:'Open daily',s:16,t:'070-3990-3971'},
+'しんしら':{n:'Shinshira',d:'A love letter to the old Golden Gai.',h:'17:00–24:00',c:'Mon, irregular',s:10,t:'03-3207-3828'},
+'双葉':{n:'Futaba',d:'Run by three generations of women since 1948, keeping Showa charm alive.',h:'19:00–23:00',c:'Mon, Sun & holidays',s:12,t:'03-3200-0279'},
+'きしめん処 双葉':{n:'Kishimen-dokoro Futaba',d:'Sake and kishimen, flat Nagoya-style noodles.',h:'Lunch 11:30–14:30, dinner 19:00–23:00 (last order 22:00)',c:'Sat, Sun & holidays',s:10,t:'03-3202-6850',k:'Noodle shop'},
+'月に吠える':{n:'Petit Bundan Bar Tsuki ni Hoeru',d:'A literary bar where book lovers gather. First-timers welcome.',h:'19:00–24:00',c:'Irregular',s:8,t:'080-8740-9958'},
+'KArMA':{d:'A dystopia-themed bar.',h:'20:00–05:00',c:'Open daily',s:7,t:'03-3203-8333'},
+'アニメホリック':{n:'Anime Holic',d:'An anime bar with a Japanimation-themed interior.',h:'20:00–05:00',c:'Open daily',s:8,t:'03-5273-8999'},
+'ami♥':{n:'ami♥',d:'Fun, healing, history and love.',h:'20:00–05:00',c:'Open daily',s:8},
+// 1st Alley
+'気仙坂':{n:'Kesenzaka',d:'Shochu with buckwheat tea and the owner\'s handmade soba.',h:'19:00–24:00, Fri & Sat until ~02:00',c:'Sun & holidays',s:10,t:'090-9384-8061'},
+'Buzz':{d:'An old-school bar to unwind in.',h:'From 20:00',c:'Sun',s:10},
+'虎の穴':{n:'Tora no Ana',d:'Home of Chunichi Dragons baseball fans.',h:'20:00–05:00',c:'Open daily',s:8},
+'Alley nuts':{n:'Alley Nuts',d:'Visitors from all over the world have left their mark here.',h:'19:00–05:00',c:'Irregular',s:9},
+'SLOW HAND':{n:'Slow Hand',d:'60s and 70s rock.',h:'18:00–23:30',c:'Sun',s:10},
+'?':{n:'? (Question)',d:'A good range of Japanese whisky.',h:'From 20:00',c:'Open daily',s:13,t:'03-3208-5172'},
+'レスポワール純':{n:"L'Espoir Jun",d:'A jazz bar for all ages.',h:'18:00–01:00',c:'Sun & holidays',s:6,t:'03-3207-8233'},
+'ダンさん':{n:'Dan-san',d:'Down-to-earth food with an old-Tokyo flavor.',h:'18:00–23:00',c:'Sun & holidays',s:11,t:'03-3205-1221'},
+'うと・うと':{n:'Uto Uto',d:'Nostalgic snacks and songs to doze off to.',h:'19:00–24:00, late session 24:00–05:00 (Fri early only; Sun late only, from 20:00)',c:'Open daily',s:12,t:'03-5272-6511'},
+'あるぱか':{n:'Arupaka',d:'Open since 1975, now run by the second-generation owner.',h:'19:00–24:00; Thu–Sat 18:00–02:00; Sun 17:00–24:00',c:'Open daily (holidays vary)',s:13,t:'03-3200-7159'},
+'風の森':{n:'BAR miteki Kaze no Mori 2nd season',d:'A bright, fun bar with a 60s feel, running since 2002.',h:'20:00–24:00, Fri & Sat 19:00–02:00',c:'Tue',s:12},
+'シネストークYOYO':{n:'Cine Stork YOYO',d:'Regional sake, herb and spice liquors, and fruit liquors.',h:'19:00–around 03:00',c:'Open daily',s:9,t:'090-1858-1578'},
+'APACHE':{d:'Relaxed, come-as-you-are drinking.',h:'20:00–around 24:00',c:'Sat, Sun & holidays',s:10,t:'03-3202-8772'},
+'BONITA':{d:'Every kind of tequila, including rare bottles.',h:'21:00–04:00 (last order 03:30)',c:'Sun & holidays',s:12,t:'03-3209-2223'},
+'MISO SOUP':{n:'miso soup',d:'A cozy spot where the miso soup is free.',h:'18:00–around 24:00',c:'Irregular',s:10},
+'あ澤/夜澤':{n:'Asawa / Yorusawa',d:'Home cooking by day (Asawa), a rotating host by night (Yorusawa).',h:'Asawa 11:00–15:00 (Sat, Sun & holidays 06:00–13:00); Yorusawa 19:00–05:00',c:'Open daily',s:14,t:'080-2878-5000'},
+'エスパ':{n:'Espa',d:'Open since 1984. Party food on reservation.',h:'18:00–01:00',c:'Sun',s:10,t:'03-3209-9284'},
+'しの':{n:'Nomiya Shino',d:'Some nights, Shino-mama herself is behind the counter.',h:'18:00–05:00',c:'Open daily',s:16,t:'03-3200-8044'},
+'こどじ':{n:'Kodoji',d:'A famous bar loved by photographers and out-of-town visitors.',h:'19:00–23:00',c:'Sun',s:10,t:'03-3205-1373'},
+'新宿櫻亭':{n:'Shinjuku Sakuratei',d:'Drink with a bright, cheerful mama.',h:'19:00–23:00',c:'Sat, Sun & holidays',s:7,t:'090-2942-4979'},
+'HOD':{n:'Punk Bar H.O.D -Hair Of the Dogs-',d:'Early punk, with requests from tens of thousands of songs.',h:'19:00–01:00',c:'Sun & holidays',s:11,t:'03-5285-1989'},
+'音吉':{n:'Otokichi',d:'Lots of Showa-era records and friendly regulars.',h:'21:00–05:00',c:'Sun',s:8,t:'03-3202-0240',x:'Very drunk guests and large groups are turned away.'},
+'2×4=8':{n:'2×4=8 (Nishi ga Hachi)',d:'A laid-back little bar.',h:'19:00–01:00',c:'Mon',s:8,t:'070-5465-8413'},
+'BILLY':{d:'Calm, quiet drinking.',h:'19:00–02:00',c:'Irregular',s:7},
+'ドラゴンナイト!!':{n:'Dragon Night!!',d:'Run by a Takarazuka Revue fan.',h:'18:00–01:00',c:'Irregular',s:12,t:'090-7541-3334'},
+'申':{n:'bar Saru',d:'Welcome to the clubroom!',h:'19:00–early morning (varies)',c:'Open daily',s:13,t:'03-3202-0621'},
+'Blue Rose':{d:'Slow, relaxed drinking.',h:'19:00–03:00',c:'Sun',s:8,t:'03-3208-9412'},
+'bar GHETTO':{d:'The kind of closeness only this neighborhood has.',h:'19:00–05:00',c:'Open daily',s:10},
+'無銘喫茶':{n:'Mumei Kissa',d:'Anyone can be the bartender for a day.',h:'Varies by day',c:'Irregular',s:20},
+'愛鷹':{n:'Ashitaka',d:'A calm street-level bar specializing in Japanese spirits.',h:'19:00–04:00',c:'Irregular',s:10,t:'080-9173-0022'},
+'どこ':{n:'Doko',d:'Bar-hopping? Then "doko", where to next!',h:'19:00–04:00 (last order 03:00)',c:'Open daily',s:10,t:'03-6457-3666'},
+'ねこ娘':{n:'Neko Musume',d:'No cats and no girls, just cat goods to soothe you.',h:'19:00–24:00',c:'Sun & holidays',s:8,t:'03-3209-3470',x:'Large groups, loud or very drunk guests are turned away.'},
+'ガルシア':{n:'Garcia',d:'Quiet conversation with the regulars.',h:'19:00–03:00, Fri, Sat & before holidays until 05:00',c:'Irregular',s:8},
+'一歩':{n:'Ippo',d:'Shogi fans gather here, the owner first among them.',h:'19:00–24:00',c:'Sun & holidays',s:10,t:'03-3200-0832'},
+'ロンリー':{n:'Lonely',d:'Drinking alone tonight, "for tomorrow".',h:'18:00–24:30',c:'Mon',s:12},
+// 3rd Alley
+'洗濯船':{n:'Sentakusen',d:'A fresh, airy space for good conversation.',h:'19:00–01:00 (last order 00:30)',c:'Mon, Sun & holidays',s:22,t:'03-3208-9716'},
+'5GALLONS':{n:'5 GALLONS',d:'Calls itself "the gas station for your heart".',h:'17:00–04:30',c:'Open daily',s:10,t:'070-6985-7055'},
+'ばるぼら屋':{n:'Barubora-ya',d:'Slow-cooked beef tendon, okonomiyaki and teppanyaki.',h:'18:00–06:00',c:'Open daily',s:16,t:'03-5285-8188'},
+'BAR滝':{n:'BAR Taki',d:'Famous for its house-made lemon sour.',h:'20:00–04:00',c:'Irregular',s:6,t:'03-3200-8088'},
+'Baltimore':{d:'A jazz vocal bar, though the staff play whatever they love.',h:'20:00–04:00',c:'Open daily',s:9,t:'03-3205-8904'},
+'原子心母':{n:'Genshi Shinbo (Atom Heart Mother)',d:'Named after the 1970 Pink Floyd album. Music and drinks.',h:'19:00–05:00',c:'Open daily',s:9,t:'03-5285-8450'},
+'the PearL':{d:'For lovers of music and unusual drinks.',h:'21:00–05:00',c:'Sun',s:8},
+'zuma.':{d:'70s–80s Western music and Showa-era pop.',h:'From around 19:00',c:'Irregular',s:8,t:'03-3232-4105'},
+'WHO':{d:'Plenty of musicians and cross-dressing regulars.',h:'20:00–05:00 (last order 04:00), Sun 18:00–24:00',c:'Open daily',s:8},
+'十六夜':{n:'Izayoi',d:'Artsy staff and signature whale bacon and Tokyo shumai.',h:'20:00–06:00 (last order 05:45)',c:'Open daily',s:15,t:'080-3273-3339'},
+'たちばな診察室':{n:'BAR Tachibana Shinsatsushitsu',d:'A hospital-themed bar with nurse and doctor costumes. Toast with a beaker!',h:'20:00–04:00 (check ahead)',c:'Irregular',s:12,t:'03-3208-4148'},
+'ゴールデンダスト':{n:'Golden Dust',d:'Drink any time of day or night.',h:'Open 24 hours',c:'Open daily',s:9},
+'toto Bar':{d:'Carefully chosen sake with "toto", fish dishes.',h:'20:00–morning',c:'Open daily',s:14,t:'03-3202-2250'},
+'BAR COO 空':{n:'BAR COO',d:'A place to relax, whatever your nationality or age.',h:'19:00–02:00',c:'Sun',s:8,t:'090-3060-5243'},
+'zilch':{d:'Take it slow, talk and drink.',h:'18:30–04:00',c:'Mon',s:9,x:'Large groups are turned away.'},
+'シエロ':{n:'Cielo',d:'Easy to walk into.',h:'19:00–24:00',c:'Open daily',s:10},
+'沙華':{n:'Shaka',d:'Opened in May 2020.',h:'20:00–04:00',c:'Sun & holidays',s:9},
+'たくのみ':{n:'Takunomi',d:'Tatami seating available. Groups welcome.',h:'19:00–24:00',c:'Sun',s:15,t:'03-6205-5463'},
+'jun&co':{d:'Relax and take your time.',h:'20:00–05:00',c:'Sun, irregular',s:6,t:'070-2625-1010'},
+'Asyl':{d:'Good drinks and coffee-cup fortune telling.',h:'19:00–02:00',c:'Open daily',s:7,t:'090-3910-0605'},
+'Hamoon-d':{d:'Warm hospitality from the mama and homemade appetizers.',h:'20:00–05:00',c:'Open daily',s:8},
+'SQUARE':{d:'Drink tequila and shout "Oh yeah!"',h:'20:00–around 05:00',c:'Sun & holidays',s:12,t:'03-3203-8450'},
+'シャドウ':{n:'Shadow',d:'A room full of history and charming staff.',h:'Open 24 hours',c:'Open daily',s:10,t:'070-1446-4649'},
+'珍呑':{n:'Chindon',d:'A retro room with the latest equipment and a team of strong women.',h:'Open 24 hours',c:'Open daily',s:13,t:'070-1446-4649'},
+'ソワレ':{n:'Soirée',d:'A chanson bar where well-known performers work.',h:'20:00–02:00, Fri, Sat & before holidays until 05:00',c:'Open daily',s:30,t:'03-5272-8088'},
+'オレンジ王子':{n:'Orange Oji',d:'Fresh orange and good-looking guys.',h:'19:00–04:00',c:'Irregular',s:10},
+'BLUE DRAGON':{d:'Shochu in a "secret clubroom".',h:'19:00–04:00',c:'Open daily',s:12,t:'03-5285-8841'},
+'Bali':{d:'Bintang, Bali\'s favorite beer!',h:'20:00–05:00',c:'Open daily',s:10,t:'090-2666-4035'},
+'酒乱童べるじゅらっく':{n:'Shurando Bergerac',d:'A sing-along bar. Show off your voice.',h:'20:00–05:00',c:'Open daily',s:10,t:'03-3200-5195'},
+'強飲1F':{n:'Goin 1F',d:'Drink any time of day or night.',h:'Open 24 hours',c:'Open daily',s:14},
+'Shampoo':{d:'Highballs made with pine-needle, mugwort or green tea.',h:'20:00–05:00',c:'Open daily',s:11,t:'090-4731-6211'},
+'マワシゲリ':{n:'Bar Mawashigeri',d:'Morning, noon or night, no cover charge.',h:'Varies',c:'Irregular',s:12,ch:'No cover charge'},
+'ラッキー':{n:'Lucky',d:'No cover charge and open 24 hours.',h:'Open 24 hours',c:'Open daily',s:9,ch:'No cover charge'},
+"KENZO'S BAR":{d:'Leopard print everywhere, inside and out. Easy to walk into!',h:'20:00–05:00',c:'Open daily',s:13,t:'090-9847-5563'},
+'あの時の女':{n:'Ano Toki no Onna',d:'"The woman from back then", and the woman to come.',h:'20:00–05:00',c:'Open daily',s:10,t:'090-2666-4035'},
+'JAN JUNE':{d:'A friendly introduction to the world of cross-dressing.',h:'19:00–05:00 (last order 04:45)',c:'Open daily',s:9,t:'03-3202-1332'},
+'談Singシネマ':{n:'Dan Sing Cinema',d:'A film talk room focused on what is showing now.',h:'20:00–03:00',c:'Wed',s:8,t:'090-8177-2089'},
+'生ハム&bar エポカ':{n:'Nama Ham & bar Epoca',d:'Cured ham and sparkling wine.',h:'18:00–05:00',c:'Open daily',s:18,t:'03-3203-0007'},
+'Cambiare':{d:'A casual bar that works for a date, too.',h:'20:00–02:00, Fri & Sat until 04:00',c:'Sun',s:16,t:'03-3208-9461'},
+// Maruha Building
+'チリチリナイン':{n:'Chiri Chiri Nine',d:'Natural and unpretentious.',h:'19:00–05:00',c:'Open daily',s:17},
+'Happy':{d:'A loud bar run by rockers and DJs.',h:'20:00–06:00 (last order 05:00), Sun 14:00–24:00',c:'Open daily',s:14},
+'unLIMITED':{d:'A shooting bar and dining bar.',h:'24:00–05:00',c:'Sun',s:28,t:'03-6380-2239'},
+'Heavy Gauge':{d:'Occasional unplugged live shows and DJ events.',h:'19:00–05:00',c:'Open daily',s:12,t:'03-3205-0550'},
+'dragon i':{d:'Light, Ni-chome-style banter with everyone at the counter.',h:'20:00–05:00',c:'Sun',s:16,t:'03-5285-3137'},
+'BAR ウラメン':{n:'BAR Uramen QUNAI BROS.',d:'An after-school clubroom for grown-ups.',h:'20:00–24:00, later on a whim',c:'Open daily',s:12,t:'080-4369-9713'},
+// 5th Alley
+'ところ処':{n:'Tokorodokoro',d:'A pop bar behind a colorful sign.',h:'19:00–04:00',c:'Open daily',s:10,t:'090-6956-9996'},
+'ロベリヤ':{n:'Roberiya',d:'Different staff every day. On Fridays, the second-generation mama who grew up here.',h:'18:00–24:00',c:'Sun',s:10,t:'03-3200-0311'},
+'ぺぺ':{n:'Izakaya Pepe',d:'A down-to-earth izakaya. Beginners very welcome.',h:'18:00–04:00',c:'Sun',s:7,t:'090-9314-5868'},
+'UKATSU':{d:'A quiet bar for known faces.',h:'18:30–01:00',c:'Sun & holidays',s:10,t:'03-5272-3993',m:'No first-timers, introduction only'},
+'K-St.':{d:'Young mamas, a different one each day.',h:'20:00–whenever',c:'Open daily',s:10,t:'03-6383-3472'},
+'Mar そんなかんじ…':{n:'Mar Sonna Kanji…',d:'Drinks as you like them, and music talk.',h:'19:00–04:00',c:'Open daily',s:10,t:'03-3208-2001'},
+'呑場 パノラマの夜':{n:'Donba Panorama no Yoru',d:'A different Shinjuku-loving host every day.',h:'16:00–04:00 (varies by staff)',c:'Open daily',s:7,t:'03-3208-2001'},
+'ALBATROSS G':{n:'Bar & Gallery ALBATROSS G',d:'A glittering space to enjoy at your own pace.',h:'20:00–05:00',c:'Open daily',s:30,t:'03-3203-3699'},
+'MONGOLIAN DRUNK':{d:'A casual bar that still smells of fresh wood.',h:'20:00–04:00 (last order 03:30)',c:'Sun',s:12,t:'03-5272-0272'},
+'Sea&Sun':{n:'Sea & Sun',d:'A social club for "gentlemen and ladies of peculiar tastes".',h:'20:00–02:00 (varies by day)',c:'Wed & holidays',s:10,t:'03-3208-4423'},
+'ぺんぎん村':{n:'Penguin Mura',d:'Drink with the "village chief" and rotating daily staff.',h:'19:00–05:00',c:'Open daily',s:12,t:'03-3209-3761'},
+'Grey':{d:'A roomier bar for taking your time.',h:'18:00–01:00',c:'Sun & holidays',s:15,t:'03-3205-0233'},
+'ビアンカ':{n:'Bianca',d:'Unwind chatting with the mama.',h:'19:00–around 05:00',c:'Sun',s:7},
+'かおりノ夢ハ夜ヒラク':{n:'Kaori no Yume wa Yoru Hiraku',d:'Soak in nostalgic Showa-era songs.',h:'19:00 (days vary)–05:00',c:'Irregular',s:11,t:'080-3540-1168'},
+'BAR 時':{n:'BAR Toki',d:'So cozy you lose track of time.',h:'From 20:00',c:'Open daily',s:9,t:'090-9203-5814'},
+'追い風':{n:'Oikaze',d:'An easygoing authentic bar.',h:'18:00–02:00',c:'Sun, and Mon after a holiday',s:7,t:'03-3202-7531',m:'Semi-membership'},
+'cine stork':{d:'Behind the door, the Golden Gai of the Showa era.',h:'From 19:00 (last order ~03:00)',c:'Open daily',s:10,t:'03-3209-4859'},
+'琥珀':{n:'Kohaku',d:'A homey bar for all ages.',h:'18:00–24:00, Sat, Sun & holidays 15:00–24:00',c:'Tue',s:10,t:'03-3209-3655'},
+'ビッグリバー':{n:'Big River',d:'A cheerful, always-smiling mama.',h:'18:00–01:00',c:'Sun & holidays',s:8,t:'090-4377-6249'},
+'Laki Laki':{d:'Bright, tropical and easy to walk into.',h:'19:00–24:00',c:'Open daily',s:9,t:'03-3202-7880'},
+'浮雲':{n:'Ukigumo',d:'Aiming to be Golden Gai\'s clubroom.',h:'20:00–05:00',c:'Open daily',s:9},
+'翁':{n:'Bar Okina',d:'A rotating menu of handmade soba and simmered dishes.',h:'17:00–24:00',c:'Wed',s:9,t:'090-1841-3889'},
+'れもんの木':{n:'Lemon no Ki',d:'Conversation with the master is the best snack.',h:'20:00–01:00',c:'Sun',s:12,t:'090-8506-6225'},
+'red.':{d:'Known for coffee and hot dogs.',h:'18:00–05:00',c:'Irregular',s:15},
+'add+':{d:'Slow, quiet drinking.',h:'18:00–24:00 (call ahead after midnight)',c:'Sun',s:8},
+'百千鳥':{n:'Momochidori',d:'A bar for unhurried conversation.',h:'From 20:00',c:'Sun',s:8},
+'真湖':{n:'Mako',d:'Run by a gay grandpa from Tsugaru, with a homemade three-dish appetizer set.',h:'18:00–24:00',c:'Sun & holidays',s:8,t:'090-3694-8994'},
+'マチュカバー':{n:'Machuka Bar',d:'For lovers of film, fiction and music.',h:'21:00–04:00',c:'Sun',s:12,t:'03-3205-9288'},
+'カリメロ':{n:'Calimero',d:'Also sells aged sprouted brown rice to take away.',h:'18:00–02:00',c:'Irregular',s:7,t:'03-6265-9889'},
+'夏の扉':{n:'Natsu no Tobira',d:'Showa oldies and the manager\'s pro-wrestling stories.',h:'20:00–04:00 (last order 03:00)',c:'Mon',s:7},
+'Kangaroo Court Decision':{d:'Around 150 gins from around the world, always in stock.',h:'18:00–05:00',c:'Open daily',s:10,t:'03-3204-6086'},
+'二都物語':{n:'Nito Monogatari',d:'An old-school bar that never changes.',h:'19:00–01:00',c:'Sun & holidays',s:12,t:'03-3200-5385'},
+'ル・マタン':{n:'Le Matin',d:'A hidden gem where writers and artists gather.',h:'19:00–03:00',c:'Sun & holidays',s:9,t:'090-9209-8981'},
+'the OPEN BOOK':{d:'Surrounded by the book collection of novelist Komimasa Tanaka.',h:'19:00–02:00 (last order 01:30), Sun until 23:00',c:'Irregular',s:15,t:'080-4112-0273'},
+// 8th Alley
+'流民':{n:'Riumin',d:'A bar for "human drifters" deep inside Golden Gai.',h:'18:00–05:00',c:'Open daily',s:14,t:'03-3203-0721'},
+'シーホース':{n:'Seahorse',d:'Good food and good conversation.',h:'18:00–23:00, Sun until 22:00',c:'Open daily',s:7,t:'03-3204-8326'},
+'FUJISAN':{n:'BAR FUJISAN',d:'A hideaway, far from the city noise.',h:'19:00–05:00',c:'Irregular',s:7,t:'080-3937-0313'},
+'麺屋 我論':{n:'Menya Garon',d:'Clean, light ramen with no MSG.',h:'11:00–15:00, 17:00–23:00',c:'Sun',s:10,k:'Ramen shop',x:'Takeaway available.'},
+'DINER 5 GALLONS':{n:'Diner 5 GALLONS',d:'Bright and spacious, with plenty of drinks and a famous beef-tendon curry.',h:'17:00–04:30',c:'Sun',s:22,t:'03-6302-1748'},
+'PAVO':{n:'Bistro PAVO',d:'Creative bistro food at great value.',h:'17:00–22:00 (last order 21:00)',c:'Sun & Mon',s:11,t:'03-6273-8282'},
+'SPADE':{d:'The bar, the music, the crowd: all rock.',h:'21:00–05:00 (last order 04:30)',c:'Sun & holidays',s:7,t:'03-3209-2788'},
+'クリシュナ':{n:'Krishna',d:'An intoxicating oriental mood.',h:'17:00–24:00, Fri & Sat 19:00–05:00, Sun 14:00–24:00',c:'Open daily',s:45,t:'03-5287-2561'},
+'B to B':{d:'A bar for record lovers.',h:'21:00–09:00',c:'Open daily',s:22,t:'03-3207-1889'},
+'3rd ROOM':{d:'Big windows, sofas, and plenty of food and drink.',h:'17:00–02:00, Fri, Sat & before holidays until 04:00',c:'Sun',s:20,t:'03-3205-9827'},
+'一軒家個室焼肉 百済':{n:'Ikkenya Koshitsu Yakiniku Kudara',d:'Premium yakiniku and Korean food in private rooms.',h:'12:00–22:30 (last order 22:00, lunch until 15:00)',c:'Open daily',s:100,t:'03-5291-1585',k:'Restaurant'},
+'炭火焼肉モンシリ':{n:'Sumibi Yakiniku Monshiri',d:'Authentic Korean barbecue and home cooking.',h:'15:00–02:00',c:'Open daily',s:87,t:'03-5155-7598',k:'Restaurant'},
+// Maneki-dori
+'キャロット':{n:'Carrot',d:'A standing bar for a quick one.',h:'20:00–05:00',c:'Open daily',s:10,t:'090-2666-4035'},
+'Bar 何となく…':{n:'Bar Nantonaku…',d:'An easygoing bar you just drift into.',h:'19:00–04:00',c:'Open daily',s:10,t:'03-3208-2001'},
+'ひまわり':{n:'Himawari',d:'Friendly and relaxed, even for first-timers.',h:'20:00–04:00',c:'Open daily',s:8,t:'080-7032-4979'},
+'グリゼット':{n:'Grisette',d:'A free space where personalities meet.',h:'18:00–02:00',c:'Sun & holidays',s:7},
+'肉人2910':{n:'Nikuto 2910',d:'A rarity here: a meat izakaya grilling over charcoal.',h:'18:30–04:00',c:'Mon, Sun & holidays',s:19,t:'03-3205-2910'},
+'Pink Roro':{d:'A cute, calm, all-pink room.',h:'18:00–24:00',c:'Open daily',s:12},
+'Smile':{n:'Smile (Sumire)',d:'Known for a cheeky, self-mocking slogan.',h:'19:00–04:00',c:'Sun',s:8},
+'ジュール':{n:'Bar Jule',d:'Staff serve in classic maid and boyish outfits.',h:'19:00–02:00, Fri & Sat until 06:00',c:'Open daily',s:8},
+'こっこめ':{n:'Kokkome',d:'Over 40 shochu from the Tokyo islands, plus rare dishes like kusaya and ashitaba.',h:'19:00–03:00',c:'Irregular',s:12,t:'080-9971-3471'},
+'bar PHO':{d:'A training ground for getting over shyness.',h:'18:00–02:00',c:'Open daily',s:8},
+'bar woods':{d:'A late-night love-advice clinic for the middle-aged.',h:'18:00–02:00',c:'Open daily',s:8},
+'バーバスター':{n:'Bar Buster',d:'Casual and easy, pay as you order.',h:'17:00–05:00',c:'Open daily',s:10,t:'050-5316-1804',ch:'No cover charge'},
+'SUZY-Q':{d:'The mama is a great cook, and the food changes daily.',h:'21:00–05:00',c:'Sat, Sun & holidays',s:8,t:'03-3209-1733'},
+'如月':{n:'Kisaragi',d:'Relax like you are at home.',h:'19:00–04:00 (last order 03:00)',c:'Mon',s:7},
+'SASUKE':{d:'A hideaway bar. Beginners welcome!',h:'20:00–05:00',c:'Open daily',s:14,t:'050-5319-9257'},
+'ダーリン':{n:'Bar Darling',d:'Film and theater people work here. Calls itself the easiest bar in Golden Gai to walk into.',h:'21:00–05:00 (last order 04:30)',c:'Sun (irregular)',s:8,t:'090-3803-9155'},
+'ハニー':{n:'Snack Honey',d:'Escape the noise and drink at your own pace.',h:'20:00–04:00',c:'Irregular',s:8},
+'CREMASTER':{d:'Has a second floor, so groups can fit.',h:'17:00–24:00',c:'Open daily',s:8},
+'友':{n:'Tomo',d:'The feel of a lively house party.',h:'20:00–02:00',c:'Sun',s:9,t:'03-3203-3673'},
+'エピローグ':{n:'Epilogue',d:'A karaoke bar.',h:'From 22:00',c:'Sun & holidays (by reservation)',s:9,t:'03-3209-0439',m:'Introduction needed'},
+'バンビ':{n:'Bambi',d:'A warm "good evening" from a red-lit room.',h:'19:30–02:00',c:'Sun & holidays',s:8},
+'Bar.Hameln':{d:'Cocktails, whisky and more. A casual bar.',h:'18:00–around 04:00, Mon–Wed until 24:00',c:'Sun',s:9,t:'03-5272-0406'},
+'bar 待夢':{n:'bar Taimu',d:'A wine bar run by a working dominatrix. Toast to disco hits!',h:'18:00–05:00',c:'Sun, Mon, Tue & holidays',s:12,t:'080-6889-1581'},
+'Bar K':{d:'A calm place to drink.',h:'16:00–23:00',c:'Sun & holidays',s:7,t:'03-3209-4089'},
+'bar sono':{d:'Aiming to be easy for first-timers.',h:'18:00–02:00',c:'Open daily',s:7},
+};
 
 /* ---------- surroundings ---------- */
 const LANDMARKS = [
-  [47,26,170,99,'Korean restaurant','韓国会席 百済'],
   [215,26,495,98,'Thermae-yu Spa','テルマー湯'],
-  [497,43,585,98,'Yakiniku Monshiri','焼肉モンシリ'],
   [637,9,684,355,'Yoshimoto','吉本興業'],
   [637,364,684,909,'Hanazono Shrine','花園神社','shrine'],
-  [9,8,43,694,'Shiki-no-Michi Promenade','遊歩道・四季の道','green'],
-  [10,727,43,907,'Promenade','遊歩道','green'],
+  [9,8,43,694,'Shiki-no-Michi Promenade','四季の路','green'],
+  [10,727,43,907,'Promenade','四季の路','green'],
   [46,865,515,906,'TEPCO substation','東京電力 変電所'],
   [517,865,586,906,'Police box','花園交番'],
   [495,584,585,699,'Parking','駐車場'],
@@ -482,121 +800,91 @@ const STREETS = [
   {a:'s5',x:371,y:291,en:'5th Alley',ja:'5番街'},
   {a:'s3',x:371,y:431.5,en:'3rd Alley',ja:'3番街'},
   {a:'s1',x:371,y:571.5,en:'1st Alley',ja:'1番街'},
-  {a:'g2',x:371,y:713.5,en:'Golden Gai G2',ja:'G2'},
-  {a:'g1',x:371,y:854.5,en:'Golden Gai G1',ja:'G1'},
+  {a:'g2',x:371,y:713.5,en:'Golden Gai G2',ja:'G2通り'},
+  {a:'g1',x:371,y:854.5,en:'Golden Gai G1',ja:'G1通り'},
   {a:'mn',x:135.5,y:400,en:'Maneki-dori',ja:'まねき通り',v:true},
-  {a:'kb',x:620,y:560,en:'Hanazono Koban-dori',ja:'花園交番通り',v:true},
+  {a:'kb',x:620,y:560,en:'Hanazono Koban-dori',ja:'花園交番通り',v:true,c:'#3EE0C0'},
 ];
 
-/* ---------- ids ---------- */
-const used = {};
+/* ---------- ids & data join ---------- */
+const used={};
 T.forEach((t,i)=>{
   t.i=i;
   let base=(t.en||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-  if(!base) base = t.en==='?'?'question':t.en==='*'?'asterisk':'spot';
-  if(t.type!=='bar' && t.type!=='venue') base = base+'-'+t.type;
-  let id=base, n=2; while(used[id]) id=base+'-'+(n++);
-  used[id]=1; t.id=id;
+  if(!base) base=t.en==='?'?'question':'spot';
+  if(t.type!=='bar'&&t.type!=='food') base+='-'+t.type;
+  let id=base,n=2; while(used[id]) id=base+'-'+(n++); used[id]=1; t.id=id;
+  t.info = (t.type==='bar'||t.type==='food') ? (INFO[t.ja]||null) : null;
 });
-const interactive = t => t.type==='bar'||t.type==='venue';
-const BARS = T.filter(t=>t.type==='bar');
+const interactive=t=>t.type==='bar'||t.type==='food';
+const PLACES=T.filter(interactive);
+const displayName=t=>(t.info&&t.info.n)||t.en;
 
-/* ---------- sample data (editor preview only) ---------- */
-let sampleOn=false;
-function sample(t){
-  const h=[...t.id].reduce((s,c)=>(s*31+c.charCodeAt(0))>>>0,7);
-  const pick=a=>a[h%a.length];
-  return {
-    cover: pick(['¥500','¥800','¥1,000','¥1,000','¥1,500','No cover charge']),
-    drinksFrom: pick(['¥700','¥800','¥900','¥1,000']),
-    hours: pick(['19:00–02:00','20:00–05:00','18:00–midnight','21:00–late']),
-    closed: pick(['Sundays','Mondays','Open daily','Sundays & holidays']),
-    payment: pick(['Cash only','Cash & card','Cash, card & QR']),
-    english: pick(['English menu','Staff speak some English','Japanese only']),
-    instagram: 'sample_'+t.id.replace(/-/g,'_'),
-    note: pick(['First-timers welcome.','Music bar with a big vinyl collection.','Tiny counter, six seats.','Regulars mostly. Ask before sitting.']),
-    _sample:true
-  };
-}
-const info = t => sampleOn ? sample(t) : (SHOP_INFO[t.id]||{});
-
-/* ---------- SVG build ---------- */
+/* ---------- SVG ---------- */
 const NS='http://www.w3.org/2000/svg';
 const svg=document.getElementById('map');
 const el=(n,attrs={},parent)=>{const e=document.createElementNS(NS,n);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;};
-
-const defs=el('defs',{},svg);
-defs.innerHTML=`
+el('defs',{},svg).innerHTML=`
 <pattern id="pUp" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="1.4" height="4" fill="rgba(31,23,64,.26)"/></pattern>
 <pattern id="pB1" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".6" fill="rgba(31,23,64,.34)"/></pattern>
 <filter id="glow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
-
-// street surface
 el('rect',{x:44,y:99,width:593,height:766,rx:4,fill:'#2C2257'},svg);
 
 const lmG=el('g',{class:'lm'},svg);
 LANDMARKS.forEach(([x0,y0,x1,y1,en,ja,kind])=>{
-  const fill = kind==='shrine'?'#4A2344':kind==='green'?'#253F3A':'#2A2150';
+  const fill=kind==='shrine'?'#4A2344':kind==='green'?'#253F3A':'#2A2150';
   const g=el('g',{},lmG);
   el('rect',{x:x0+.5,y:y0+.5,width:x1-x0-1,height:y1-y0-1,rx:3,fill,stroke:'#3C3175','stroke-width':.8},g);
   el('title',{},g).textContent=`${en} (${ja})`;
-  g._lm={x0,y0,x1,y1,en,ja,kind};
+  g._lm={x0,y0,x1,y1,en,ja};
 });
 const ftG=el('g',{},svg);
 FLOORTAGS.forEach(([x0,x1,y,f])=>{
   el('rect',{x:x0+.5,y:y[0]+.5,width:x1-x0-1,height:y[1]-y[0]-1,rx:1.5,fill:'#3A2F6E'},ftG);
-  const tx=el('text',{x:(x0+x1)/2,y:(y[0]+y[1])/2,'text-anchor':'middle','dominant-baseline':'central','font-size':6,fill:'#B3A8E0','font-weight':900,'font-family':'Zen Kaku Gothic New'},ftG);
-  tx.textContent=f;
+  el('text',{x:(x0+x1)/2,y:(y[0]+y[1])/2,'text-anchor':'middle','dominant-baseline':'central','font-size':6,fill:'#B3A8E0','font-weight':900,'font-family':'Zen Kaku Gothic New'},ftG).textContent=f;
 });
-
-// street labels (neon)
 const stG=el('g',{},svg);
 STREETS.forEach(s=>{
-  const c=ALLEYS[s.a].c;
+  const c=s.c||ALLEYS[s.a].c;
   const t=el('text',{class:'street-label',x:s.x,y:s.y,'text-anchor':'middle','dominant-baseline':'central',fill:c,'font-size':10,filter:'url(#glow)'},stG);
   if(s.v) t.setAttribute('transform',`rotate(90 ${s.x} ${s.y})`);
   t.innerHTML=`${s.en}<tspan class="sja" dx="5" font-size="7" opacity=".85">${s.ja}</tspan>`;
 });
-// directions
 [['Shinjuku Bunka Center ↑',600,20,'end'],['← Shinjuku City Office',48,720,'start'],['Shinjuku Station ↓',10,920,'start']].forEach(([s,x,y,anc])=>{
-  const t=el('text',{x,y,'text-anchor':anc,'dominant-baseline':'central','font-size':7.5,fill:'#A79CD6','font-family':'Zen Kaku Gothic New','font-weight':700},svg); t.textContent=s;
+  el('text',{x,y,'text-anchor':anc,'dominant-baseline':'central','font-size':7.5,fill:'#A79CD6','font-family':'Zen Kaku Gothic New','font-weight':700},svg).textContent=s;
 });
 
 const tileG=el('g',{id:'tiles'},svg);
 T.forEach(t=>{
-  const w=t.x1-t.x0, h=t.y1-t.y0;
-  const g=el('g',{class:'tile '+t.type,'data-i':t.i},tileG);
-  t.g=g;
-  if(t.type==='vacant'){
-    el('rect',{x:t.x0+1,y:t.y0+1,width:w-2,height:h-2,rx:1.6,fill:'none',stroke:'#4A3F86','stroke-dasharray':'2 1.6','stroke-width':.8},g);
-    g.style.cursor='default'; return;
-  }
-  if(t.type==='other'){
-    el('rect',{class:'base',x:t.x0+.5,y:t.y0+.5,width:w-1,height:h-1,rx:1.6,fill:'#2A2150'},g);
-    el('title',{},g).textContent=`${t.en} (${t.ja})`;
-    g.style.cursor='default'; return;
-  }
+  const w=t.x1-t.x0,h=t.y1-t.y0;
+  const g=el('g',{class:'tile '+t.type,'data-i':t.i},tileG); t.g=g;
+  if(t.type==='vacant'){ el('rect',{x:t.x0+1,y:t.y0+1,width:w-2,height:h-2,rx:1.6,fill:'none',stroke:'#4A3F86','stroke-dasharray':'2 1.6','stroke-width':.8},g); g.style.cursor='default'; return; }
+  if(t.type==='other'){ el('rect',{class:'base',x:t.x0+.5,y:t.y0+.5,width:w-1,height:h-1,rx:1.6,fill:'#2A2150'},g); el('title',{},g).textContent=`${t.en} (${t.ja})`; g.style.cursor='default'; return; }
   const c=ALLEYS[t.alley].c;
-  el('rect',{class:'base',x:t.x0+.5,y:t.y0+.5,width:w-1,height:h-1,rx:1.6,fill:c},g);
-  if(/^[2-4]F$/.test(t.floor)) el('rect',{x:t.x0+.5,y:t.y0+.5,width:w-1,height:h-1,rx:1.6,fill:'url(#pUp)','pointer-events':'none'},g);
-  if(t.floor==='B1') el('rect',{x:t.x0+.5,y:t.y0+.5,width:w-1,height:h-1,rx:1.6,fill:'url(#pB1)','pointer-events':'none'},g);
-  g.setAttribute('tabindex','0');
-  g.setAttribute('role','button');
-  g.setAttribute('aria-label',`${t.en}, ${t.ja}${t.floor?', '+t.floor:''}`);
+  if(t.info){
+    el('rect',{class:'base',x:t.x0+.5,y:t.y0+.5,width:w-1,height:h-1,rx:1.6,fill:c},g);
+    if(/^[2-4]F$/.test(t.floor)) el('rect',{x:t.x0+.5,y:t.y0+.5,width:w-1,height:h-1,rx:1.6,fill:'url(#pUp)','pointer-events':'none'},g);
+    if(t.floor==='B1') el('rect',{x:t.x0+.5,y:t.y0+.5,width:w-1,height:h-1,rx:1.6,fill:'url(#pB1)','pointer-events':'none'},g);
+  } else {
+    g.classList.add('nodata');
+    el('rect',{class:'base',x:t.x0+.5,y:t.y0+.5,width:w-1,height:h-1,rx:1.6,fill:'#2A2150'},g);
+    el('rect',{x:t.x0+1.1,y:t.y0+1.1,width:w-2.2,height:h-2.2,rx:1.2,fill:'none',stroke:c,'stroke-width':1,'pointer-events':'none'},g);
+  }
+  g.setAttribute('tabindex','0'); g.setAttribute('role','button');
+  g.setAttribute('aria-label',`${displayName(t)}, ${t.ja}${t.floor?', '+t.floor:''}`);
 });
 
 /* ---------- label fitting ---------- */
 const cv=document.createElement('canvas').getContext('2d');
-const measure=(s,weight=700)=>{cv.font=`${weight} 10px "Zen Kaku Gothic New", sans-serif`;return cv.measureText(s).width;};
+const measure=s=>{cv.font='700 10px "Zen Kaku Gothic New", sans-serif';return cv.measureText(s).width;};
 const isCJK=s=>/^[^\x00-\x7F]+$/.test(s);
 function bestLayout(s,w,h,cap=8){
-  if(!s) return null;
-  w-=2.6; h-=2.6;
-  const L=measure(s), c=[];
+  if(!s) return null; w-=2.6; h-=2.6;
+  const L=measure(s),c=[];
   c.push({m:'h',fs:Math.min(10*w/L,h*.64),k:1.25});
   c.push({m:'r',fs:Math.min(10*h/L,w*.64),k:1});
   if(s.includes(' ')){
-    const words=s.split(' '); let best=null;
+    const words=s.split(' ');let best=null;
     for(let i=1;i<words.length;i++){const a=words.slice(0,i).join(' '),b=words.slice(i).join(' ');const m=Math.max(measure(a),measure(b));if(!best||m<best.m)best={a,b,m};}
     c.push({m:'h2',lines:[best.a,best.b],fs:Math.min(10*w/best.m,h/2.3),k:1.2});
     c.push({m:'r2',lines:[best.a,best.b],fs:Math.min(10*h/best.m,w/2.3),k:.95});
@@ -608,62 +896,53 @@ function bestLayout(s,w,h,cap=8){
 }
 function drawLabel(g,s,box,cap,fill){
   g.querySelectorAll('text').forEach(n=>n.remove());
-  const {x0,y0,x1,y1}=box; const lay=bestLayout(s,x1-x0,y1-y0,cap); if(!lay) return;
-  const cx=(x0+x1)/2, cy=(y0+y1)/2, fs=lay.fs;
+  const lay=bestLayout(s,box.x1-box.x0,box.y1-box.y0,cap); if(!lay) return;
+  const cx=(box.x0+box.x1)/2,cy=(box.y0+box.y1)/2,fs=lay.fs;
   const t=el('text',{'text-anchor':'middle','dominant-baseline':'central','font-size':fs.toFixed(2)},g);
   if(fill) t.setAttribute('fill',fill);
   if(lay.m==='h'){t.setAttribute('x',cx);t.setAttribute('y',cy);t.textContent=s;}
   else if(lay.m==='r'){t.setAttribute('x',cx);t.setAttribute('y',cy);t.setAttribute('transform',`rotate(90 ${cx} ${cy})`);t.textContent=s;}
-  else if(lay.m==='h2'||lay.m==='r2'){
-    lay.lines.forEach((ln,i)=>{const sp=el('tspan',{x:cx,y:cy+(i?.56:-.56)*fs*1.05},t);sp.textContent=ln;});
-    if(lay.m==='r2') t.setAttribute('transform',`rotate(90 ${cx} ${cy})`);
-  } else {
-    const ch=[...s], step=fs*1.04, start=cy-(ch.length-1)*step/2;
-    ch.forEach((c,i)=>{const sp=el('tspan',{x:cx,y:start+i*step},t);sp.textContent=c;});
-  }
+  else if(lay.m==='h2'||lay.m==='r2'){lay.lines.forEach((ln,i)=>{el('tspan',{x:cx,y:cy+(i?.56:-.56)*fs*1.05},t).textContent=ln;});if(lay.m==='r2')t.setAttribute('transform',`rotate(90 ${cx} ${cy})`);}
+  else{const ch=[...s],step=fs*1.04,start=cy-(ch.length-1)*step/2;ch.forEach((c,i)=>{el('tspan',{x:cx,y:start+i*step},t).textContent=c;});}
 }
 let lang='en';
 function labelAll(){
-  T.forEach(t=>{
-    if(t.type==='vacant') return;
-    const s = lang==='ja' ? (t.ja||t.en) : t.en;
-    drawLabel(t.g,s,t,t.type==='other'?6:8,t.type==='other'?'#8E83BF':null);
-  });
+  T.forEach(t=>{ if(t.type==='vacant')return;
+    drawLabel(t.g, lang==='ja'?(t.ja||t.en):t.en, t, t.type==='other'?6:8, t.type==='other'?'#8E83BF':null); });
   lmG.querySelectorAll('g').forEach(g=>{const d=g._lm;drawLabel(g,lang==='ja'?d.ja:d.en,d,11);});
 }
 
-/* ---------- sidebar: count, legend ---------- */
-document.getElementById('barCount').textContent = BARS.length;
+/* ---------- sidebar ---------- */
+document.getElementById('barCount').textContent=T.filter(t=>t.type==='bar').length;
 const legend=document.getElementById('legend');
 let alleyFilter=null;
 Object.entries(ALLEYS).forEach(([k,a])=>{
-  const n=BARS.filter(t=>t.alley===k).length;
+  const n=PLACES.filter(t=>t.alley===k).length;
   const li=document.createElement('li');
   li.innerHTML=`<button type="button" aria-pressed="false" data-a="${k}" style="--c:${a.c}"><span class="sw"></span><span>${a.en}<span class="l-ja">${a.ja}</span></span><span class="cnt">${n}</span></button>`;
   legend.appendChild(li);
 });
 legend.addEventListener('click',e=>{
   const b=e.target.closest('button'); if(!b) return;
-  alleyFilter = alleyFilter===b.dataset.a ? null : b.dataset.a;
+  alleyFilter=alleyFilter===b.dataset.a?null:b.dataset.a;
   legend.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.a===alleyFilter));
   applyHighlight();
 });
 
-/* ---------- search ---------- */
-const q=document.getElementById('q'), results=document.getElementById('results');
+const q=document.getElementById('q'),results=document.getElementById('results');
 const norm=s=>(s||'').toLowerCase().normalize('NFKC').replace(/[\s.'’\-]/g,'');
 let matches=null;
 q.addEventListener('input',()=>{
-  const v=norm(q.value);
-  results.innerHTML='';
+  const v=norm(q.value); results.innerHTML='';
   if(!v){matches=null;applyHighlight();return;}
-  matches=T.filter(t=>interactive(t)&&(norm(t.en).includes(v)||norm(t.ja).includes(v)));
+  const hay=t=>[t.en,t.ja,t.info&&t.info.n,t.info&&t.info.d,t.info&&t.info.k].map(norm).join('|');
+  matches=PLACES.filter(t=>hay(t).includes(v));
   applyHighlight();
-  if(!matches.length){results.innerHTML=`<li class="none">No bar matches “${q.value}”. Try part of the name.</li>`;return;}
+  if(!matches.length){results.innerHTML=`<li class="none">Nothing matches “${q.value.replace(/</g,'&lt;')}”. Try part of a name or a drink.</li>`;return;}
   matches.slice(0,8).forEach(t=>{
     const li=document.createElement('li');
-    li.innerHTML=`<button type="button"><span class="r-en"></span><span class="r-ja"></span></button>`;
-    li.querySelector('.r-en').textContent=t.en;
+    li.innerHTML='<button type="button"><span class="r-en"></span><span class="r-ja"></span></button>';
+    li.querySelector('.r-en').textContent=displayName(t);
     li.querySelector('.r-ja').textContent=`${t.ja}${t.floor?', '+t.floor:''}, ${ALLEYS[t.alley].short}`;
     li.querySelector('button').onclick=()=>{scrollToTile(t);openPanel(t);};
     results.appendChild(li);
@@ -671,83 +950,84 @@ q.addEventListener('input',()=>{
   if(matches.length>8){const li=document.createElement('li');li.className='none';li.textContent=`${matches.length-8} more highlighted on the map`;results.appendChild(li);}
 });
 function applyHighlight(){
-  const on = !!(matches||alleyFilter);
+  const on=!!(matches||alleyFilter);
   svg.classList.toggle('filtering',on);
-  T.forEach(t=>{ if(!t.g) return;
-    const hit = on && (!matches||matches.includes(t)) && (!alleyFilter||t.alley===alleyFilter);
-    t.g.classList.toggle('hit',hit);
-  });
+  T.forEach(t=>t.g.classList.toggle('hit',on&&(!matches||matches.includes(t))&&(!alleyFilter||t.alley===alleyFilter)));
 }
-
-/* ---------- label language ---------- */
 document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{
   lang=b.dataset.lang;
   document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));
   labelAll();
 });
 
-/* ---------- hover card ---------- */
-const peek=document.getElementById('peek');
+/* ---------- cards ---------- */
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function signHTML(t,d){
-  const a=ALLEYS[t.alley];
-  const inner = d.photo ? `<img src="${esc(d.photo)}" alt="Signboard of ${esc(t.en)}">`
-    : `<span class="sign-ja">${esc(t.ja||t.en)}</span><span class="sign-cap">Signboard photo coming soon</span>`;
-  return `<div class="sign" style="--c:${a.c}">${inner}${d._sample?'<span class="badge">Sample</span>':''}</div>`;
+const COVER_UNKNOWN='Ask before you sit';
+function signHTML(t){
+  const d=t.info||{};
+  const inner=d.photo?`<img src="${esc(d.photo)}" alt="Signboard of ${esc(displayName(t))}">`:`<span class="sign-ja">${esc(t.ja||t.en)}</span>`;
+  return `<div class="sign" style="--c:${ALLEYS[t.alley].c}">${inner}</div>`;
 }
-const val=(v,empty='Not listed yet')=>v?`<dd>${esc(v)}</dd>`:`<dd class="empty">${empty}</dd>`;
-function where(t){ const a=ALLEYS[t.alley]; return `${t.floor?t.floor+', ':''}${a.en}`; }
+const val=(v,empty='Not listed')=>v?`<dd>${esc(v)}</dd>`:`<dd class="empty">${empty}</dd>`;
+function where(t){const d=t.info||{};return [d.k,t.floor,ALLEYS[t.alley].en].filter(Boolean).join(', ');}
+const peek=document.getElementById('peek');
 function showPeek(t){
-  const d=info(t);
-  peek.innerHTML = signHTML(t,d)+`<div class="peek-body">
-    <p class="peek-name">${esc(t.en)}</p>
-    <p class="peek-sub">${esc(t.ja)}${t.ja?', ':''}${esc(where(t))}</p>
-    <dl><dt>Cover charge</dt>${val(d.cover)}<dt>Instagram</dt>${val(d.instagram?'@'+d.instagram:'','Not linked yet')}</dl>
-    <p class="peek-hint">Click to see prices and hours</p></div>`;
+  const d=t.info;
+  peek.innerHTML=signHTML(t)+`<div class="peek-body">
+    <p class="peek-name">${esc(displayName(t))}</p>
+    <p class="peek-sub">${esc(t.ja)}, ${esc(where(t))}</p>
+    ${d&&d.m?`<span class="flag">${esc(d.m)}</span>`:''}
+    ${d?`<p class="desc">${esc(d.d)}</p>
+    <dl><dt>Cover charge</dt>${val(d.ch,COVER_UNKNOWN)}<dt>Open</dt>${val(d.h)}<dt>Closed</dt>${val(d.c)}<dt>Seats</dt>${val(d.s)}</dl>
+    <p class="asof">From the April 2022 guide. Click for more.</p>`
+    :`<p class="desc" style="color:#6F659C">No details for this bar yet.</p><dl><dt>Cover charge</dt><dd class="empty">${COVER_UNKNOWN}</dd></dl>`}
+  </div>`;
   peek.classList.add('on');
 }
 function placePeek(x,y){
   const w=peek.offsetWidth,h=peek.offsetHeight;
-  let px=x+18, py=y+18;
+  let px=x+18,py=y+18;
   if(px+w>innerWidth-10) px=x-w-18;
   if(py+h>innerHeight-10) py=Math.max(10,innerHeight-h-10);
   peek.style.left=px+'px'; peek.style.top=py+'px';
 }
 const hidePeek=()=>peek.classList.remove('on');
 const tileOf=e=>{const g=e.target.closest&&e.target.closest('.tile');if(!g)return null;const t=T[g.dataset.i];return interactive(t)?t:null;};
-svg.addEventListener('pointerover',e=>{ if(e.pointerType==='touch') return; const t=tileOf(e); if(t){showPeek(t);placePeek(e.clientX,e.clientY);} });
-svg.addEventListener('pointermove',e=>{ if(e.pointerType==='touch'||!peek.classList.contains('on')) return; placePeek(e.clientX,e.clientY); });
-svg.addEventListener('pointerout',e=>{ const t=tileOf(e); if(t&&!(e.relatedTarget&&e.relatedTarget.closest&&e.relatedTarget.closest('.tile')===t.g)) hidePeek(); });
-svg.addEventListener('focusin',e=>{ const t=tileOf(e); if(!t) return; showPeek(t); const r=t.g.getBoundingClientRect(); placePeek(r.right,r.top); });
+svg.addEventListener('pointerover',e=>{if(e.pointerType==='touch')return;const t=tileOf(e);if(t){showPeek(t);placePeek(e.clientX,e.clientY);}});
+svg.addEventListener('pointermove',e=>{if(e.pointerType==='touch'||!peek.classList.contains('on'))return;placePeek(e.clientX,e.clientY);});
+svg.addEventListener('pointerout',e=>{const t=tileOf(e);if(t&&!(e.relatedTarget&&e.relatedTarget.closest&&e.relatedTarget.closest('.tile')===t.g))hidePeek();});
+svg.addEventListener('focusin',e=>{const t=tileOf(e);if(!t)return;showPeek(t);const r=t.g.getBoundingClientRect();placePeek(r.right,r.top);});
 svg.addEventListener('focusout',hidePeek);
 
-/* ---------- detail panel ---------- */
-const panel=document.getElementById('panel'), scrim=document.getElementById('scrim');
-let current=null, lastFocus=null;
+const panel=document.getElementById('panel'),scrim=document.getElementById('scrim');
+let current=null,lastFocus=null;
+const intl=p=>'+81'+p.replace(/[^\d]/g,'').replace(/^0/,'');
 function openPanel(t){
   if(current) current.g.classList.remove('sel');
   current=t; t.g.classList.add('sel');
-  const d=info(t), a=ALLEYS[t.alley];
-  const insta = d.instagram
-    ? `<a class="btn primary" href="https://www.instagram.com/${encodeURIComponent(d.instagram)}/" target="_blank" rel="noopener">Open Instagram @${esc(d.instagram)}</a>`
-    : `<a class="btn primary" aria-disabled="true">Instagram not linked yet</a>`;
-  const maps=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(t.en+' Golden Gai Shinjuku')}`;
+  const d=t.info||{},a=ALLEYS[t.alley];
+  const maps=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(displayName(t)+' Golden Gai Shinjuku')}`;
+  const insta=d.instagram?`<a class="btn primary" href="https://www.instagram.com/${encodeURIComponent(d.instagram)}/" target="_blank" rel="noopener">Open Instagram @${esc(d.instagram)}</a>`:'';
   panel.innerHTML=`<button class="close" type="button" aria-label="Close">×</button>
-    ${signHTML(t,d)}
+    ${signHTML(t)}
     <div class="p-body">
-      <h2 class="p-name" id="pName">${esc(t.en)}</h2>
+      <h2 class="p-name" id="pName">${esc(displayName(t))}</h2>
       <p class="p-ja">${esc(t.ja)}</p>
-      <p class="p-where"><span class="sw" style="--c:${a.c}"></span>${t.floor?esc(t.floor)+', door':'Door'} on ${esc(a.en)}</p>
+      <p class="p-where"><span class="sw" style="--c:${a.c}"></span>${esc(where(t))}</p>
+      ${d.m?`<span class="flag">${esc(d.m)}</span>`:''}
+      ${t.info?`<p class="desc">${esc(d.d)}</p>`:`<p class="desc" style="color:#6F659C">No details for this bar yet.</p>`}
       <dl class="facts">
-        <dt>Cover charge</dt>${val(d.cover)}
-        <dt>Drinks from</dt>${val(d.drinksFrom)}
-        <dt>Hours</dt>${val(d.hours)}
-        <dt>Closed</dt>${val(d.closed)}
-        <dt>Payment</dt>${val(d.payment)}
-        <dt>English</dt>${val(d.english)}
+        <dt>Cover charge</dt>${val(d.ch,COVER_UNKNOWN)}
+        <dt>Open</dt>${val(d.h)}
+        <dt>Closed</dt>${val(d.c)}
+        <dt>Seats</dt>${val(d.s)}
+        <dt>Phone</dt>${d.t?`<dd><a href="tel:${intl(d.t)}">${esc(d.t)}</a></dd>`:'<dd class="empty">Not listed</dd>'}
+        ${d.e?`<dt>Email</dt><dd><a href="mailto:${esc(d.e)}">${esc(d.e)}</a></dd>`:''}
+        <dt>Instagram</dt>${val(d.instagram?'@'+d.instagram:'','Not linked yet')}
       </dl>
+      ${d.x?`<p class="p-note">${esc(d.x)}</p>`:''}
       <div class="actions">${insta}<a class="btn secondary" href="${maps}" target="_blank" rel="noopener">Search on Google Maps</a></div>
-      ${d.note?`<p class="p-note">${esc(d.note)}</p>`:''}
+      ${t.info?`<p class="source">Details from the Shinjuku Golden Gai Anshin Joho Map (Shinjuku Tourism Promotion Association), as of 15 April 2022. Hours, prices and seats may have changed.</p>`:''}
     </div>`;
   lastFocus=document.activeElement;
   panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); scrim.classList.add('on');
@@ -762,58 +1042,60 @@ function closePanel(){
   current=null;
 }
 scrim.onclick=closePanel;
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&current) closePanel(); });
-
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&current)closePanel();});
 let downAt=null;
 svg.addEventListener('pointerdown',e=>{downAt=[e.clientX,e.clientY];});
-svg.addEventListener('click',e=>{
-  if(downAt&&Math.hypot(e.clientX-downAt[0],e.clientY-downAt[1])>6) return; // was a drag
-  const t=tileOf(e); if(t) openPanel(t);
-});
-svg.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){const t=tileOf(e); if(t){e.preventDefault();openPanel(t);}} });
+svg.addEventListener('click',e=>{if(downAt&&Math.hypot(e.clientX-downAt[0],e.clientY-downAt[1])>6)return;const t=tileOf(e);if(t)openPanel(t);});
+svg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const t=tileOf(e);if(t){e.preventDefault();openPanel(t);}}});
 
 /* ---------- zoom & pan ---------- */
 const scroll=document.getElementById('scroll');
-const RATIO=926/692;
+const RATIO=926/692, mobile=()=>innerWidth<=860;
 let z=1;
-const baseWidth=()=>{const w=scroll.clientWidth-(innerWidth<=860?28:56);return innerWidth<=860?w:Math.max(360,Math.min(w,980));};
-function setZoom(nz,keepCenter=true){
+const baseWidth=()=>{const w=scroll.clientWidth-(mobile()?28:56);return mobile()?w:Math.max(360,Math.min(w,980));};
+function setZoom(nz,keep=true){
   const old=svg.clientWidth||1;
-  const cx=(scroll.scrollLeft+scroll.clientWidth/2)/old, cy=(scroll.scrollTop+scroll.clientHeight/2)/old;
+  const cx=(scroll.scrollLeft+scroll.clientWidth/2)/old,cy=(scroll.scrollTop+scroll.clientHeight/2)/old;
   z=Math.max(1,Math.min(4,nz));
-  const w=baseWidth()*z;
-  svg.style.width=w+'px'; svg.style.height=(w*RATIO)+'px';
-  if(keepCenter){scroll.scrollLeft=cx*w-scroll.clientWidth/2; scroll.scrollTop=cy*w-scroll.clientHeight/2;}
+  const w=baseWidth()*z; svg.style.width=w+'px'; svg.style.height=(w*RATIO)+'px';
+  if(keep){scroll.scrollLeft=cx*w-scroll.clientWidth/2;scroll.scrollTop=cy*w-scroll.clientHeight/2;}
 }
 document.getElementById('zin').onclick=()=>setZoom(z*1.4);
 document.getElementById('zout').onclick=()=>setZoom(z/1.4);
-document.getElementById('zfit').onclick=()=>setZoom(innerWidth<=860?1.7:1,false);
-addEventListener('resize',()=>setZoom(z));
-// drag to pan (mouse)
+document.getElementById('zfit').onclick=()=>setZoom(mobile()?1.7:1,false);
+addEventListener('resize',()=>{if(!viewMap.hidden)setZoom(z);});
 let drag=null;
-scroll.addEventListener('pointerdown',e=>{ if(e.pointerType!=='mouse'||e.button!==0) return; drag={x:e.clientX,y:e.clientY,l:scroll.scrollLeft,t:scroll.scrollTop}; });
-addEventListener('pointermove',e=>{ if(!drag) return; scroll.scrollLeft=drag.l-(e.clientX-drag.x); scroll.scrollTop=drag.t-(e.clientY-drag.y); });
+scroll.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;drag={x:e.clientX,y:e.clientY,l:scroll.scrollLeft,t:scroll.scrollTop};});
+addEventListener('pointermove',e=>{if(!drag)return;scroll.scrollLeft=drag.l-(e.clientX-drag.x);scroll.scrollTop=drag.t-(e.clientY-drag.y);});
 addEventListener('pointerup',()=>drag=null);
 function scrollToTile(t){
-  const s=svg.clientWidth/692;
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(z<1.6) setZoom(1.8,false);
-  const s2=svg.clientWidth/692, pad=(innerWidth<=860?14:28);
-  scroll.scrollTo({left:pad+((t.x0+t.x1)/2)*s2-scroll.clientWidth/2, top:pad+((t.y0+t.y1)/2)*s2-scroll.clientHeight/2, behavior:reduce?'auto':'smooth'});
-  if(innerWidth<=860) scroll.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  const s=svg.clientWidth/692,pad=mobile()?14:28;
+  scroll.scrollTo({left:pad+((t.x0+t.x1)/2)*s-scroll.clientWidth/2,top:pad+((t.y0+t.y1)/2)*s-scroll.clientHeight/2,behavior:reduce?'auto':'smooth'});
+  if(mobile()) scroll.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
 }
 
-/* ---------- editor preview toggle ---------- */
-document.getElementById('sample').addEventListener('change',e=>{ sampleOn=e.target.checked; if(current) openPanel(current); });
-
-/* ---------- init ---------- */
-setZoom(innerWidth<=860?1.7:1,false);
+/* ---------- pages (hash routing) ---------- */
+const viewMap=document.getElementById('view-map'),viewQA=document.getElementById('view-qa');
+let mapReady=false;
+function route(){
+  const qa=location.hash==='#qa';
+  viewMap.hidden=qa; viewQA.hidden=!qa;
+  document.title=qa?'Golden Gai Q&A for first-timers – Shinjuku, Tokyo':'Golden Gai Bar Map – Shinjuku, Tokyo';
+  if(qa){ if(current) closePanel(); hidePeek(); scrollTo(0,0); }
+  else { setZoom(mapReady?z:(mobile()?1.7:1),mapReady); mapReady=true; }
+}
+addEventListener('hashchange',route);
+route();
 labelAll();
 (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(labelAll);
 setTimeout(labelAll,1500);
 
-// helper for editors: GG.list() prints every shop id to paste into SHOP_INFO
-window.GG={list:()=>console.table(T.filter(interactive).map(t=>({id:t.id,en:t.en,ja:t.ja,floor:t.floor,alley:ALLEYS[t.alley].en})))};
+window.GG={
+  list:()=>console.table(PLACES.map(t=>({id:t.id,ja:t.ja,name:displayName(t),hasInfo:!!t.info}))),
+  unmatched:()=>Object.keys(INFO).filter(k=>!T.some(t=>t.ja===k)),
+};
 </script>
 </body>
 </html>
